@@ -30,17 +30,21 @@ export default function HomePage() {
       {/* Header */}
       <header className="relative z-10 border-b border-neutral-800/80 px-6 py-4 flex items-center justify-between max-w-6xl mx-auto w-full">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-600 to-red-600 flex items-center justify-center shadow-lg shadow-red-950/60">
-            <Flame className="w-6 h-6 text-white" />
+          <div className="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-red-700 via-amber-500 to-red-800 shadow-md shadow-red-950/60 shrink-0 overflow-hidden flex items-center justify-center">
+            <img
+              src="/logo.png"
+              alt="Đạt Lẩu & Nướng"
+              className="w-full h-full object-contain rounded-full bg-neutral-950"
+            />
           </div>
           <div>
             <span className="font-extrabold text-base tracking-tight text-white flex items-center gap-1.5">
-              KHÓI & VỊ
+              ĐẠT LẨU &amp; NƯỚNG
               <span className="text-[10px] px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 font-semibold">
-                Hotpot & BBQ
+                Hotpot &amp; BBQ
               </span>
             </span>
-            <p className="text-[11px] text-neutral-400">Hệ Sinh Thái Loyalty & Menu Online Quán Lẩu Nướng</p>
+            <p className="text-[11px] text-neutral-400">Hệ Sinh Thái Loyalty &amp; Menu Online Quán Lẩu Nướng</p>
           </div>
         </div>
 

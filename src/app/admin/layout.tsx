@@ -35,12 +35,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Brand */}
         <div className="p-5 border-b border-neutral-800">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-600 to-red-600 flex items-center justify-center shadow-lg shadow-red-950/40 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
-              <Flame className="w-5 h-5 text-white relative z-10" />
+            <div className="w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-red-700 via-amber-500 to-red-800 shadow-md shadow-red-950/40 shrink-0 overflow-hidden flex items-center justify-center">
+              <img
+                src="/logo.png"
+                alt="Đạt Lẩu & Nướng"
+                className="w-full h-full object-contain rounded-full bg-neutral-950"
+              />
             </div>
             <div>
-              <h2 className="font-black text-sm tracking-tight text-white leading-tight">KHÓI &amp; VỊ ADMIN</h2>
+              <h2 className="font-black text-sm tracking-tight text-white leading-tight">ĐẠT LẨU &amp; NƯỚNG</h2>
               <span className="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Loyalty &amp; Menu Hub</span>
             </div>
           </div>

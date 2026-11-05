@@ -19,19 +19,20 @@ import {
   Fish,
   Salad,
   Wine,
-  Share2,
   MapPin,
   Clock,
-  Info,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { Category, MenuItem, WishlistItem } from "@/lib/types";
 import { formatVND } from "@/lib/utils";
+import { useTheme } from "@/components/ThemeProvider";
 
 // ─── Skeleton Card for Smooth Loading ─────────────────────────────────────────
 function SkeletonCard({ hero }: { hero?: boolean }) {
   if (hero) {
     return (
-      <div className="rounded-2xl border border-neutral-800 bg-neutral-900/60 overflow-hidden space-y-3">
+      <div className="rounded-2xl border border-stone-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/60 overflow-hidden space-y-3">
         <div className="skeleton w-full h-44 sm:h-52" />
         <div className="p-4 space-y-2.5">
           <div className="skeleton h-5 w-3/4" />
@@ -45,7 +46,7 @@ function SkeletonCard({ hero }: { hero?: boolean }) {
     );
   }
   return (
-    <div className="flex gap-3 p-3 rounded-2xl border border-neutral-800 bg-neutral-900/60">
+    <div className="flex gap-3 p-3 rounded-2xl border border-stone-200 dark:border-neutral-800 bg-white dark:bg-neutral-900/60">
       <div className="skeleton w-24 h-24 rounded-xl shrink-0" />
       <div className="flex-1 space-y-2 py-1">
         <div className="skeleton h-4 w-3/4" />
@@ -65,17 +66,18 @@ function SpicyFlame({ level }: { level: number }) {
   if (!level || level <= 0) return null;
   return (
     <span
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-rose-950/80 border border-rose-500/30 text-[10px] text-rose-300 font-bold"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/80 border border-rose-300 dark:border-rose-500/30 text-[10px] text-rose-700 dark:text-rose-300 font-bold"
       title={`Độ cay cấp ${level}`}
     >
       {Array.from({ length: level }).map((_, i) => (
-        <Flame key={i} size={11} className="text-rose-400 fill-rose-400 shrink-0" />
+        <Flame key={i} size={11} className="text-rose-600 dark:text-rose-400 fill-rose-600 dark:fill-rose-400 shrink-0" />
       ))}
     </span>
   );
 }
 
 export default function MenuPage() {
+  const { themeMode, resolvedTheme, cycleTheme } = useTheme();
   const [categories, setCategories] = useState<Category[]>([]);
   const [items, setItems] = useState<MenuItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -192,58 +194,90 @@ export default function MenuPage() {
   }, [items, selectedCategory, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100 pb-36 font-sans select-none antialiased">
+    <div className="min-h-screen bg-stone-100/70 dark:bg-neutral-950 text-stone-900 dark:text-neutral-100 pb-36 font-sans select-none antialiased transition-colors duration-200">
       {/* ── 1. Top Brand & Table Info Header ───────────────────────────────── */}
-      <header className="sticky top-0 z-30 bg-neutral-900/95 backdrop-blur-md border-b border-neutral-800 shadow-xl">
+      <header className="sticky top-0 z-30 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-b border-stone-200 dark:border-neutral-800 shadow-md dark:shadow-xl transition-colors duration-200">
         <div className="max-w-md mx-auto px-4 pt-3 pb-2.5">
-          {/* Brand Row + Table Selector */}
+          {/* Brand Row + Controls */}
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-red-600 flex items-center justify-center shadow-lg shadow-red-950/60 shrink-0">
-                <Flame size={22} className="text-white" />
+              {/* Circular Logo with Glow */}
+              <div className="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-red-700 via-amber-500 to-red-800 shadow-md shadow-red-950/30 shrink-0 overflow-hidden flex items-center justify-center">
+                <img
+                  src="/logo.png"
+                  alt="Đạt Lẩu & Nướng"
+                  className="w-full h-full object-contain rounded-full bg-neutral-950"
+                />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h1 className="font-black text-sm tracking-tight text-white uppercase leading-none">
-                    Lẩu Nướng Khói &amp; Vị
+                  <h1 className="font-black text-sm tracking-tight text-neutral-900 dark:text-white uppercase leading-none">
+                    Đạt Lẩu &amp; Nướng
                   </h1>
-                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/30 font-bold uppercase">
+                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-red-600/10 dark:bg-red-500/20 text-red-700 dark:text-red-400 border border-red-500/30 font-bold uppercase">
                     BBQ
                   </span>
                 </div>
-                <p className="text-[11px] text-neutral-400 mt-0.5">Thực đơn điện tử gọi món tại bàn</p>
+                <p className="text-[11px] text-stone-500 dark:text-neutral-400 mt-0.5">Thực đơn gọi món tại bàn</p>
               </div>
             </div>
 
-            {/* Table Badge */}
-            <div className="relative shrink-0">
-              {isEditingTable ? (
-                <div className="flex items-center gap-1 bg-neutral-800 border border-amber-500/50 rounded-lg p-1">
-                  <input
-                    type="text"
-                    value={tableNumber}
-                    onChange={(e) => setTableNumber(e.target.value)}
-                    onBlur={() => setIsEditingTable(false)}
-                    autoFocus
-                    className="w-16 bg-neutral-950 text-amber-400 text-xs font-bold px-1.5 py-0.5 rounded outline-none"
-                  />
+            {/* Right Controls: Theme Toggle & Table Number */}
+            <div className="flex items-center gap-1.5">
+              {/* Theme Toggle Button */}
+              <button
+                onClick={cycleTheme}
+                className="flex items-center gap-1 px-2 py-1 rounded-lg bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:border-amber-500/50 transition active:scale-95"
+                title={`Chế độ: ${themeMode === "auto" ? "Tự động theo giờ điện thoại" : themeMode === "light" ? "Giao diện sáng" : "Giao diện tối"} (Bấm để đổi)`}
+              >
+                {themeMode === "auto" ? (
+                  <>
+                    <Clock size={12} className="text-amber-600 dark:text-amber-400 shrink-0" />
+                    <span className="text-[10px]">Auto</span>
+                  </>
+                ) : themeMode === "light" ? (
+                  <>
+                    <Sun size={12} className="text-amber-500 shrink-0" />
+                    <span className="text-[10px]">Sáng</span>
+                  </>
+                ) : (
+                  <>
+                    <Moon size={12} className="text-sky-400 shrink-0" />
+                    <span className="text-[10px]">Tối</span>
+                  </>
+                )}
+              </button>
+
+              {/* Table Badge */}
+              <div className="relative shrink-0">
+                {isEditingTable ? (
+                  <div className="flex items-center gap-1 bg-white dark:bg-neutral-800 border border-amber-500/50 rounded-lg p-1">
+                    <input
+                      type="text"
+                      value={tableNumber}
+                      onChange={(e) => setTableNumber(e.target.value)}
+                      onBlur={() => setIsEditingTable(false)}
+                      autoFocus
+                      className="w-16 bg-stone-100 dark:bg-neutral-950 text-amber-700 dark:text-amber-400 text-xs font-bold px-1.5 py-0.5 rounded outline-none"
+                    />
+                    <button
+                      onClick={() => setIsEditingTable(false)}
+                      className="p-1 text-emerald-600 dark:text-emerald-400"
+                    >
+                      <Check size={14} />
+                    </button>
+                  </div>
+                ) : (
                   <button
-                    onClick={() => setIsEditingTable(false)}
-                    className="p-1 text-emerald-400 hover:text-emerald-300"
+                    onClick={() => setIsEditingTable(true)}
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-neutral-800/90 border border-stone-200 dark:border-neutral-700 text-xs font-bold text-red-800 dark:text-amber-400 hover:border-amber-500/50 transition active:scale-95"
+                    title="Nhấn để đổi số bàn"
                   >
-                    <Check size={14} />
+                    <MapPin size={12} className="text-red-700 dark:text-amber-400 shrink-0" />
+                    <span>{tableNumber}</span>
                   </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setIsEditingTable(true)}
-                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-neutral-800/90 border border-neutral-700 text-xs font-bold text-amber-400 hover:border-amber-500/50 transition active:scale-95"
-                  title="Nhấn để đổi số bàn"
-                >
-                  <MapPin size={12} className="text-amber-400 shrink-0" />
-                  <span>{tableNumber}</span>
-                </button>
-              )}
+                )}
+              </div>
             </div>
           </div>
 
@@ -252,44 +286,44 @@ export default function MenuPage() {
             {/* Wifi Quick Copy */}
             <button
               onClick={copyWifiPassword}
-              className="flex-1 flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-neutral-800/80 border border-neutral-700/60 text-neutral-300 hover:text-white transition active:scale-95"
+              className="flex-1 flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-stone-100 dark:bg-neutral-800/80 border border-stone-200 dark:border-neutral-700/60 text-stone-700 dark:text-neutral-300 hover:text-stone-900 dark:hover:text-white transition active:scale-95"
             >
               <div className="flex items-center gap-1.5 text-[11px]">
-                <Wifi size={13} className="text-amber-400 shrink-0" />
-                <span className="font-mono text-neutral-400">Wifi: <b className="text-neutral-200">KhoiVaVi_5G</b></span>
+                <Wifi size={13} className="text-red-700 dark:text-amber-400 shrink-0" />
+                <span className="font-mono text-stone-500 dark:text-neutral-400">Wifi: <b className="text-stone-800 dark:text-neutral-200">DatLauNuong_5G</b></span>
               </div>
               {copiedWifi ? (
-                <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
                   <Check size={12} /> Đã chép
                 </span>
               ) : (
-                <span className="text-[10px] text-amber-400 font-mono bg-neutral-900/80 px-1.5 py-0.5 rounded">
+                <span className="text-[10px] text-red-800 dark:text-amber-400 font-mono bg-stone-200/80 dark:bg-neutral-900/80 px-1.5 py-0.5 rounded font-bold">
                   88888888
                 </span>
               )}
             </button>
 
             {/* Member Reminder Pill */}
-            <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-950/60 to-red-950/40 border border-amber-800/40 text-[11px] text-amber-300">
-              <Gift size={13} className="text-amber-400 shrink-0" />
-              <span className="font-semibold">Tích 10–15% điểm</span>
+            <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-red-50 dark:bg-gradient-to-r dark:from-amber-950/60 dark:to-red-950/40 border border-red-200 dark:border-amber-800/40 text-[11px] text-red-800 dark:text-amber-300 font-semibold">
+              <Gift size={13} className="text-red-700 dark:text-amber-400 shrink-0" />
+              <span>Tích 10–15% điểm</span>
             </div>
           </div>
 
           {/* Search Box */}
           <div className="relative mt-2.5">
-            <Search size={15} className="text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search size={15} className="text-stone-400 dark:text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               placeholder="Tìm bò Mỹ, dẻ sườn, lẩu thái, ba chỉ..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-neutral-800/90 border border-neutral-700/70 rounded-xl pl-9 pr-8 py-2 text-xs text-neutral-100 placeholder:text-neutral-500 focus:outline-none focus:border-amber-500 focus:bg-neutral-800 transition"
+              className="w-full bg-stone-100 dark:bg-neutral-800/90 border border-stone-200 dark:border-neutral-700/70 rounded-xl pl-9 pr-8 py-2 text-xs text-stone-900 dark:text-neutral-100 placeholder:text-stone-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-red-700 dark:focus:border-amber-500 focus:bg-white dark:focus:bg-neutral-800 transition"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-neutral-500 hover:text-white p-1"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 dark:text-neutral-500 dark:hover:text-white p-1"
               >
                 <X size={14} />
               </button>
@@ -302,8 +336,8 @@ export default function MenuPage() {
               onClick={() => setSelectedCategory("all")}
               className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 ${
                 selectedCategory === "all"
-                  ? "bg-amber-500 text-neutral-950 shadow-md shadow-amber-500/20"
-                  : "bg-neutral-800/80 text-neutral-400 border border-neutral-700/60 hover:text-neutral-200"
+                  ? "bg-gradient-to-r from-red-700 to-amber-600 text-white shadow-md shadow-red-900/30"
+                  : "bg-stone-100 dark:bg-neutral-800/80 text-stone-600 dark:text-neutral-400 border border-stone-200 dark:border-neutral-700/60 hover:text-stone-900 dark:hover:text-neutral-200"
               }`}
             >
               <Sparkles size={13} className="shrink-0" />
@@ -319,8 +353,8 @@ export default function MenuPage() {
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 ${
                     isActive
-                      ? "bg-amber-500 text-neutral-950 shadow-md shadow-amber-500/20"
-                      : "bg-neutral-800/80 text-neutral-400 border border-neutral-700/60 hover:text-neutral-200"
+                      ? "bg-gradient-to-r from-red-700 to-amber-600 text-white shadow-md shadow-red-900/30"
+                      : "bg-stone-100 dark:bg-neutral-800/80 text-stone-600 dark:text-neutral-400 border border-stone-200 dark:border-neutral-700/60 hover:text-stone-900 dark:hover:text-neutral-200"
                   }`}
                 >
                   {getCategoryIcon(cat.slug)}
@@ -328,7 +362,9 @@ export default function MenuPage() {
                   {count > 0 && (
                     <span
                       className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                        isActive ? "bg-neutral-950/30 text-neutral-950" : "bg-neutral-700/50 text-neutral-400"
+                        isActive
+                          ? "bg-white/20 text-white"
+                          : "bg-stone-200 dark:bg-neutral-700/50 text-stone-600 dark:text-neutral-400"
                       }`}
                     >
                       {count}
@@ -351,22 +387,22 @@ export default function MenuPage() {
             <SkeletonCard />
           </div>
         ) : filteredItems.length === 0 ? (
-          <div className="text-center py-16 bg-neutral-900/50 rounded-2xl border border-neutral-800/80 p-8">
-            <Utensils size={36} className="text-neutral-600 mx-auto mb-3" />
-            <p className="text-neutral-400 text-sm font-semibold">Không tìm thấy món phù hợp</p>
-            <p className="text-xs text-neutral-500 mt-1">Thử tìm bằng từ khóa khác hoặc xem tất cả món</p>
+          <div className="text-center py-16 bg-white dark:bg-neutral-900/50 rounded-2xl border border-stone-200 dark:border-neutral-800/80 p-8 shadow-sm">
+            <Utensils size={36} className="text-stone-400 dark:text-neutral-600 mx-auto mb-3" />
+            <p className="text-stone-800 dark:text-neutral-400 text-sm font-semibold">Không tìm thấy món phù hợp</p>
+            <p className="text-xs text-stone-500 dark:text-neutral-500 mt-1">Thử tìm bằng từ khóa khác hoặc xem tất cả món</p>
             <button
               onClick={() => {
                 setSelectedCategory("all");
                 setSearchQuery("");
               }}
-              className="mt-4 px-4 py-2 rounded-xl bg-amber-500 text-neutral-950 text-xs font-bold shadow-lg"
+              className="mt-4 px-4 py-2 rounded-xl bg-gradient-to-r from-red-700 to-amber-600 text-white text-xs font-bold shadow-md shadow-red-900/20"
             >
               Xem toàn bộ thực đơn
             </button>
           </div>
         ) : (
-          filteredItems.map((item, idx) => {
+          filteredItems.map((item) => {
             const isHero = item.isSignature || item.isBestSeller || item.categoryId === "cat-combo";
             const wishlistItem = wishlist.find((w) => w.item.id === item.id);
             const isJustAdded = addedItemId === item.id;
@@ -378,8 +414,8 @@ export default function MenuPage() {
                   key={item.id}
                   className={`group rounded-2xl border overflow-hidden transition-all duration-200 ${
                     !item.isAvailable
-                      ? "opacity-60 bg-neutral-900/40 border-neutral-800/50"
-                      : "bg-neutral-900/90 hover:bg-neutral-900 border-neutral-800 shadow-lg shadow-black/40"
+                      ? "opacity-60 bg-stone-100 dark:bg-neutral-900/40 border-stone-200 dark:border-neutral-800/50"
+                      : "bg-white dark:bg-neutral-900/90 hover:border-red-300 dark:hover:border-neutral-700 border-stone-200 dark:border-neutral-800 shadow-sm dark:shadow-lg dark:shadow-black/40"
                   }`}
                 >
                   {/* Big Hero Image */}
@@ -394,12 +430,12 @@ export default function MenuPage() {
                     />
 
                     {/* Gradient overlay for readability */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-transparent to-black/30 pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30 pointer-events-none" />
 
                     {/* Badges on Top Left */}
                     <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10">
                       {item.isSignature && (
-                        <span className="bg-gradient-to-r from-red-600 to-orange-500 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1 uppercase tracking-wide">
+                        <span className="bg-gradient-to-r from-red-700 to-amber-600 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1 uppercase tracking-wide">
                           <Flame size={11} className="fill-white" />
                           Nên thử
                         </span>
@@ -422,7 +458,7 @@ export default function MenuPage() {
                     {/* Out of Stock Overlay */}
                     {!item.isAvailable && (
                       <div className="absolute inset-0 bg-neutral-950/80 backdrop-blur-xs flex items-center justify-center z-20">
-                        <span className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
+                        <span className="bg-red-600 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
                           Tạm hết món hôm nay
                         </span>
                       </div>
@@ -434,33 +470,33 @@ export default function MenuPage() {
                     <div>
                       <h3
                         onClick={() => setSelectedItemDetail(item)}
-                        className="font-bold text-neutral-100 text-base leading-snug hover:text-amber-400 cursor-pointer transition line-clamp-1"
+                        className="font-bold text-stone-900 dark:text-neutral-100 text-base leading-snug hover:text-red-700 dark:hover:text-amber-400 cursor-pointer transition line-clamp-1"
                       >
                         {item.name}
                       </h3>
                       {item.description && (
-                        <p className="text-xs text-neutral-400 mt-1 line-clamp-2 leading-relaxed">
+                        <p className="text-xs text-stone-500 dark:text-neutral-400 mt-1 line-clamp-2 leading-relaxed">
                           {item.description}
                         </p>
                       )}
                     </div>
 
                     {/* Price and Action Row */}
-                    <div className="pt-2 border-t border-neutral-800/80 flex items-center justify-between gap-2">
+                    <div className="pt-2 border-t border-stone-200 dark:border-neutral-800/80 flex items-center justify-between gap-2">
                       <div>
                         <div className="flex items-baseline gap-2">
-                          <span className="font-black text-amber-400 text-lg tabular-nums">
+                          <span className="font-black text-red-700 dark:text-amber-400 text-lg tabular-nums">
                             {formatVND(item.price)}
                           </span>
                           {item.memberPrice && (
-                            <span className="text-xs text-neutral-500 line-through tabular-nums">
+                            <span className="text-xs text-stone-400 dark:text-neutral-500 line-through tabular-nums">
                               {formatVND(item.memberPrice)}
                             </span>
                           )}
                         </div>
                         {item.memberPrice && (
-                          <div className="text-[10px] text-amber-300/90 flex items-center gap-1 font-semibold">
-                            <Sparkles size={11} className="text-amber-400" />
+                          <div className="text-[10px] text-amber-700 dark:text-amber-300/90 flex items-center gap-1 font-semibold">
+                            <Sparkles size={11} className="text-amber-600 dark:text-amber-400" />
                             Giá hội viên: <b>{formatVND(item.memberPrice)}</b>
                           </div>
                         )}
@@ -470,22 +506,22 @@ export default function MenuPage() {
                       {item.isAvailable ? (
                         wishlistItem ? (
                           <div
-                            className={`flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/30 rounded-xl p-1 ${
+                            className={`flex items-center gap-1.5 bg-red-50 dark:bg-amber-500/10 border border-red-300 dark:border-amber-500/30 rounded-xl p-1 ${
                               isJustAdded ? "scale-105" : ""
                             } transition-transform`}
                           >
                             <button
                               onClick={() => updateQuantity(item.id, -1)}
-                              className="w-7 h-7 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-white flex items-center justify-center transition active:scale-95"
+                              className="w-7 h-7 rounded-lg bg-stone-200 dark:bg-neutral-800 hover:bg-stone-300 dark:hover:bg-neutral-700 text-stone-900 dark:text-white flex items-center justify-center transition active:scale-95"
                             >
                               <Minus size={14} />
                             </button>
-                            <span className="text-xs font-black text-amber-400 w-5 text-center tabular-nums">
+                            <span className="text-xs font-black text-red-700 dark:text-amber-400 w-5 text-center tabular-nums">
                               {wishlistItem.quantity}
                             </span>
                             <button
                               onClick={() => updateQuantity(item.id, 1)}
-                              className="w-7 h-7 rounded-lg bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold flex items-center justify-center transition active:scale-95"
+                              className="w-7 h-7 rounded-lg bg-gradient-to-r from-red-700 to-amber-600 text-white font-bold flex items-center justify-center transition active:scale-95"
                             >
                               <Plus size={14} />
                             </button>
@@ -493,14 +529,14 @@ export default function MenuPage() {
                         ) : (
                           <button
                             onClick={() => addToWishlist(item)}
-                            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 text-xs font-black shadow-md shadow-amber-500/20 active:scale-95 transition"
+                            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-red-700 to-amber-600 hover:brightness-110 text-white text-xs font-black shadow-md shadow-red-900/20 active:scale-95 transition"
                           >
                             <Plus size={14} />
                             <span>Chọn món</span>
                           </button>
                         )
                       ) : (
-                        <span className="text-xs text-neutral-500 font-medium">Hết hàng</span>
+                        <span className="text-xs text-stone-400 dark:text-neutral-500 font-medium">Hết hàng</span>
                       )}
                     </div>
                   </div>
@@ -514,8 +550,8 @@ export default function MenuPage() {
                 key={item.id}
                 className={`group flex gap-3 p-3 rounded-2xl border transition-all duration-200 overflow-hidden ${
                   !item.isAvailable
-                    ? "opacity-60 bg-neutral-900/40 border-neutral-800/40"
-                    : "bg-neutral-900/90 hover:bg-neutral-900 border-neutral-800/80 shadow-md shadow-black/30"
+                    ? "opacity-60 bg-stone-100 dark:bg-neutral-900/40 border-stone-200 dark:border-neutral-800/40"
+                    : "bg-white dark:bg-neutral-900/90 hover:border-red-300 dark:hover:border-neutral-700 border-stone-200 dark:border-neutral-800/80 shadow-xs dark:shadow-md dark:shadow-black/30"
                 }`}
               >
                 {/* 96x96 Rounded Image Thumbnail */}
@@ -545,7 +581,7 @@ export default function MenuPage() {
                   {!item.isAvailable && (
                     <div className="absolute inset-0 bg-neutral-950/80 backdrop-blur-xs flex items-center justify-center p-1 text-center">
                       <span className="text-[10px] text-red-400 font-bold uppercase leading-tight">
-                        Hết hàng
+                        Hết
                       </span>
                     </div>
                   )}
@@ -556,32 +592,32 @@ export default function MenuPage() {
                   <div>
                     <h3
                       onClick={() => setSelectedItemDetail(item)}
-                      className="font-bold text-neutral-100 text-sm leading-tight hover:text-amber-400 cursor-pointer transition line-clamp-1"
+                      className="font-bold text-stone-900 dark:text-neutral-100 text-sm leading-tight hover:text-red-700 dark:hover:text-amber-400 cursor-pointer transition line-clamp-1"
                     >
                       {item.name}
                     </h3>
                     {item.description && (
-                      <p className="text-[11px] text-neutral-400 mt-1 line-clamp-2 leading-relaxed">
+                      <p className="text-[11px] text-stone-500 dark:text-neutral-400 mt-1 line-clamp-2 leading-relaxed">
                         {item.description}
                       </p>
                     )}
                   </div>
 
                   {/* Price & Add Stepper */}
-                  <div className="mt-2 flex items-center justify-between gap-1 pt-1.5 border-t border-neutral-800/60">
+                  <div className="mt-2 flex items-center justify-between gap-1 pt-1.5 border-t border-stone-200 dark:border-neutral-800/60">
                     <div>
                       <div className="flex items-baseline gap-1.5">
-                        <span className="font-extrabold text-amber-400 text-sm tabular-nums">
+                        <span className="font-extrabold text-red-700 dark:text-amber-400 text-sm tabular-nums">
                           {formatVND(item.price)}
                         </span>
                         {item.memberPrice && (
-                          <span className="text-[10px] text-neutral-500 line-through tabular-nums">
+                          <span className="text-[10px] text-stone-400 dark:text-neutral-500 line-through tabular-nums">
                             {formatVND(item.memberPrice)}
                           </span>
                         )}
                       </div>
                       {item.memberPrice && (
-                        <span className="text-[9px] text-amber-300/80 font-medium block">
+                        <span className="text-[9px] text-amber-700 dark:text-amber-300/80 font-medium block">
                           HV: {formatVND(item.memberPrice)}
                         </span>
                       )}
@@ -589,19 +625,19 @@ export default function MenuPage() {
 
                     {item.isAvailable ? (
                       wishlistItem ? (
-                        <div className="flex items-center gap-1 bg-amber-500/10 border border-amber-500/30 rounded-xl p-0.5">
+                        <div className="flex items-center gap-1 bg-red-50 dark:bg-amber-500/10 border border-red-300 dark:border-amber-500/30 rounded-xl p-0.5">
                           <button
                             onClick={() => updateQuantity(item.id, -1)}
-                            className="w-6 h-6 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-white flex items-center justify-center transition active:scale-95"
+                            className="w-6 h-6 rounded-lg bg-stone-200 dark:bg-neutral-800 hover:bg-stone-300 dark:hover:bg-neutral-700 text-stone-900 dark:text-white flex items-center justify-center transition active:scale-95"
                           >
                             <Minus size={12} />
                           </button>
-                          <span className="text-xs font-black text-amber-400 w-4 text-center tabular-nums">
+                          <span className="text-xs font-black text-red-700 dark:text-amber-400 w-4 text-center tabular-nums">
                             {wishlistItem.quantity}
                           </span>
                           <button
                             onClick={() => updateQuantity(item.id, 1)}
-                            className="w-6 h-6 rounded-lg bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold flex items-center justify-center transition active:scale-95"
+                            className="w-6 h-6 rounded-lg bg-gradient-to-r from-red-700 to-amber-600 text-white font-bold flex items-center justify-center transition active:scale-95"
                           >
                             <Plus size={12} />
                           </button>
@@ -609,14 +645,14 @@ export default function MenuPage() {
                       ) : (
                         <button
                           onClick={() => addToWishlist(item)}
-                          className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-neutral-800 hover:bg-amber-500 hover:text-neutral-950 border border-neutral-700 text-neutral-200 text-xs font-bold transition active:scale-95"
+                          className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-stone-100 dark:bg-neutral-800 hover:bg-red-700 hover:text-white dark:hover:bg-amber-500 dark:hover:text-neutral-950 border border-stone-200 dark:border-neutral-700 text-stone-800 dark:text-neutral-200 text-xs font-bold transition active:scale-95"
                         >
                           <Plus size={13} />
                           <span>Chọn</span>
                         </button>
                       )
                     ) : (
-                      <span className="text-[11px] text-neutral-500">Hết</span>
+                      <span className="text-[11px] text-stone-400 dark:text-neutral-500">Hết</span>
                     )}
                   </div>
                 </div>
@@ -631,7 +667,7 @@ export default function MenuPage() {
         <div className="fixed bottom-4 left-3 right-3 z-40 max-w-md mx-auto">
           <div
             onClick={() => setIsWishlistOpen(true)}
-            className="relative bg-gradient-to-r from-red-600 via-orange-600 to-amber-600 rounded-2xl p-3 shadow-2xl shadow-red-950/80 flex items-center justify-between cursor-pointer border border-amber-400/30 hover:brightness-105 transition active:scale-98 text-white"
+            className="relative bg-gradient-to-r from-red-800 via-orange-600 to-amber-600 rounded-2xl p-3 shadow-2xl shadow-red-950/60 flex items-center justify-between cursor-pointer border border-amber-300/30 hover:brightness-105 transition active:scale-98 text-white"
           >
             <div className="flex items-center gap-2.5">
               <div
@@ -662,66 +698,66 @@ export default function MenuPage() {
       {/* ── 4. Wishlist Drawer / Modal (Dành cho khách đọc món cho phục vụ) ──── */}
       {isWishlistOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4"
+          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4"
           onClick={(e) => {
             if (e.target === e.currentTarget) setIsWishlistOpen(false);
           }}
         >
-          <div className="bg-neutral-900 border border-neutral-800 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl max-h-[88vh] flex flex-col overflow-hidden shadow-2xl shadow-black">
+          <div className="bg-white dark:bg-neutral-900 border border-stone-200 dark:border-neutral-800 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl max-h-[88vh] flex flex-col overflow-hidden shadow-2xl">
             {/* Mobile Drag Handle */}
             <div className="flex justify-center pt-3 pb-1 sm:hidden">
-              <div className="w-10 h-1 rounded-full bg-neutral-700" />
+              <div className="w-10 h-1 rounded-full bg-stone-300 dark:bg-neutral-700" />
             </div>
 
             {/* Modal Header */}
-            <div className="p-4 border-b border-neutral-800 flex items-center justify-between">
+            <div className="p-4 border-b border-stone-200 dark:border-neutral-800 flex items-center justify-between">
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="font-extrabold text-base text-white">Món đã chọn ({tableNumber})</h3>
-                  <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold">
+                  <h3 className="font-extrabold text-base text-stone-900 dark:text-white">Món đã chọn ({tableNumber})</h3>
+                  <span className="text-xs px-2 py-0.5 rounded-full bg-red-100 dark:bg-amber-500/20 text-red-700 dark:text-amber-300 font-bold">
                     {totalWishlistItems} phần
                   </span>
                 </div>
-                <p className="text-xs text-neutral-400 mt-0.5">
+                <p className="text-xs text-stone-500 dark:text-neutral-400 mt-0.5">
                   Mở màn hình này để đọc tên món cho nhân viên phục vụ ghi order
                 </p>
               </div>
               <button
                 onClick={() => setIsWishlistOpen(false)}
-                className="w-8 h-8 rounded-full bg-neutral-800 hover:bg-neutral-700 text-neutral-400 hover:text-white flex items-center justify-center transition"
+                className="w-8 h-8 rounded-full bg-stone-100 dark:bg-neutral-800 hover:bg-stone-200 dark:hover:bg-neutral-700 text-stone-500 dark:text-neutral-400 hover:text-stone-900 dark:hover:text-white flex items-center justify-center transition"
               >
                 <X size={16} />
               </button>
             </div>
 
             {/* Item List */}
-            <div className="p-4 overflow-y-auto space-y-2 flex-1 divide-y divide-neutral-800/60">
+            <div className="p-4 overflow-y-auto space-y-2 flex-1 divide-y divide-stone-100 dark:divide-neutral-800/60">
               {wishlist.map((w) => (
                 <div key={w.item.id} className="pt-2.5 first:pt-0 flex items-center justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold text-sm text-neutral-100 truncate">{w.item.name}</p>
-                    <p className="text-xs text-amber-400 font-bold tabular-nums">
+                    <p className="font-bold text-sm text-stone-900 dark:text-neutral-100 truncate">{w.item.name}</p>
+                    <p className="text-xs text-red-700 dark:text-amber-400 font-bold tabular-nums">
                       {formatVND(w.item.price * w.quantity)}
                     </p>
                     {w.item.portion && (
-                      <span className="text-[10px] text-neutral-500">{w.item.portion}</span>
+                      <span className="text-[10px] text-stone-400 dark:text-neutral-500">{w.item.portion}</span>
                     )}
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
-                    <div className="flex items-center gap-1 bg-neutral-800 border border-neutral-700 rounded-xl p-1">
+                    <div className="flex items-center gap-1 bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 rounded-xl p-1">
                       <button
                         onClick={() => updateQuantity(w.item.id, -1)}
-                        className="w-6 h-6 rounded-lg bg-neutral-700 text-white flex items-center justify-center active:scale-95 transition"
+                        className="w-6 h-6 rounded-lg bg-stone-200 dark:bg-neutral-700 text-stone-900 dark:text-white flex items-center justify-center active:scale-95 transition"
                       >
                         <Minus size={12} />
                       </button>
-                      <span className="text-xs font-black w-5 text-center text-white tabular-nums">
+                      <span className="text-xs font-black w-5 text-center text-stone-900 dark:text-white tabular-nums">
                         {w.quantity}
                       </span>
                       <button
                         onClick={() => updateQuantity(w.item.id, 1)}
-                        className="w-6 h-6 rounded-lg bg-amber-500 text-neutral-950 font-bold flex items-center justify-center active:scale-95 transition"
+                        className="w-6 h-6 rounded-lg bg-gradient-to-r from-red-700 to-amber-600 text-white font-bold flex items-center justify-center active:scale-95 transition"
                       >
                         <Plus size={12} />
                       </button>
@@ -729,7 +765,7 @@ export default function MenuPage() {
 
                     <button
                       onClick={() => updateQuantity(w.item.id, -w.quantity)}
-                      className="text-neutral-500 hover:text-rose-400 p-1.5 transition"
+                      className="text-stone-400 hover:text-rose-600 dark:text-neutral-500 dark:hover:text-rose-400 p-1.5 transition"
                       title="Xóa món"
                     >
                       <Trash2 size={15} />
@@ -740,20 +776,20 @@ export default function MenuPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 bg-neutral-950 border-t border-neutral-800 space-y-3">
+            <div className="p-4 bg-stone-50 dark:bg-neutral-950 border-t border-stone-200 dark:border-neutral-800 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-neutral-400 font-medium">Tổng hóa đơn tạm tính:</span>
-                <span className="font-black text-amber-400 text-lg tabular-nums">
+                <span className="text-xs text-stone-500 dark:text-neutral-400 font-medium">Tổng hóa đơn tạm tính:</span>
+                <span className="font-black text-red-700 dark:text-amber-400 text-lg tabular-nums">
                   {formatVND(totalEstimatedPrice)}
                 </span>
               </div>
 
               {/* Loyalty Earn Estimate */}
-              <div className="bg-gradient-to-r from-amber-950/60 to-red-950/40 border border-amber-800/40 rounded-xl p-2.5 text-xs text-amber-200 flex items-start gap-2">
-                <Gift size={15} className="text-amber-400 shrink-0 mt-0.5" />
+              <div className="bg-red-50 dark:bg-gradient-to-r dark:from-amber-950/60 dark:to-red-950/40 border border-red-200 dark:border-amber-800/40 rounded-xl p-2.5 text-xs text-red-900 dark:text-amber-200 flex items-start gap-2">
+                <Gift size={15} className="text-red-700 dark:text-amber-400 shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-bold text-amber-300 leading-tight">Nhắc nhở tích điểm:</p>
-                  <p className="text-[11px] text-amber-200/90 mt-0.5 leading-normal">
+                  <p className="font-bold text-red-800 dark:text-amber-300 leading-tight">Nhắc nhở tích điểm:</p>
+                  <p className="text-[11px] text-red-700 dark:text-amber-200/90 mt-0.5 leading-normal">
                     Hóa đơn này dự kiến tích lũy khoảng{" "}
                     <b>+{Math.floor(totalEstimatedPrice / 10000)} điểm</b>. Nhớ đọc số điện thoại khi tính tiền nhé!
                   </p>
@@ -762,7 +798,7 @@ export default function MenuPage() {
 
               <button
                 onClick={() => setIsWishlistOpen(false)}
-                className="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-black text-xs uppercase tracking-wider transition active:scale-98 shadow-lg shadow-amber-500/20"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-red-700 to-amber-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider transition active:scale-98 shadow-lg shadow-red-900/20"
               >
                 Đã xong, quay lại xem món tiếp
               </button>
@@ -774,12 +810,12 @@ export default function MenuPage() {
       {/* ── 5. Dish Detail Modal (Bottom popup on tap) ───────────────────────── */}
       {selectedItemDetail && (
         <div
-          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4"
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4"
           onClick={(e) => {
             if (e.target === e.currentTarget) setSelectedItemDetail(null);
           }}
         >
-          <div className="bg-neutral-900 border border-neutral-800 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl shadow-black">
+          <div className="bg-white dark:bg-neutral-900 border border-stone-200 dark:border-neutral-800 w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl overflow-hidden shadow-2xl">
             {/* Modal Header Image */}
             <div className="relative h-56 sm:h-64 w-full">
               <img
@@ -787,7 +823,7 @@ export default function MenuPage() {
                 alt={selectedItemDetail.name}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-neutral-900 via-transparent to-black/30 pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30 pointer-events-none" />
 
               <button
                 onClick={() => setSelectedItemDetail(null)}
@@ -799,7 +835,7 @@ export default function MenuPage() {
               {/* Badges on image */}
               <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap">
                 {selectedItemDetail.isSignature && (
-                  <span className="bg-gradient-to-r from-red-600 to-orange-500 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1 uppercase">
+                  <span className="bg-gradient-to-r from-red-700 to-amber-600 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1 uppercase">
                     <Flame size={11} className="fill-white" /> Nên thử
                   </span>
                 )}
@@ -823,26 +859,26 @@ export default function MenuPage() {
             {/* Modal Body */}
             <div className="p-5 space-y-3">
               <div>
-                <h3 className="font-extrabold text-lg text-white leading-tight">
+                <h3 className="font-extrabold text-lg text-stone-900 dark:text-white leading-tight">
                   {selectedItemDetail.name}
                 </h3>
-                <p className="text-xs text-neutral-400 mt-1.5 leading-relaxed">
+                <p className="text-xs text-stone-500 dark:text-neutral-400 mt-1.5 leading-relaxed">
                   {selectedItemDetail.description ||
-                    "Món ăn hảo hạng được chế biến từ nguyên liệu tươi sống mỗi ngày, ướp sốt đặc trưng của bếp trưởng."}
+                    "Món ăn hảo hạng được chế biến từ nguyên liệu tươi sống mỗi ngày, ướp sốt đặc trưng của bếp trưởng Đạt Lẩu & Nướng."}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-neutral-800 flex items-center justify-between gap-3">
+              <div className="pt-3 border-t border-stone-200 dark:border-neutral-800 flex items-center justify-between gap-3">
                 <div>
-                  <span className="text-[10px] text-neutral-500 uppercase tracking-wider block">
+                  <span className="text-[10px] text-stone-400 dark:text-neutral-500 uppercase tracking-wider block">
                     Giá niêm yết
                   </span>
-                  <span className="font-black text-amber-400 text-2xl tabular-nums">
+                  <span className="font-black text-red-700 dark:text-amber-400 text-2xl tabular-nums">
                     {formatVND(selectedItemDetail.price)}
                   </span>
                   {selectedItemDetail.memberPrice && (
-                    <div className="text-xs text-amber-300 font-semibold flex items-center gap-1 mt-0.5">
-                      <Sparkles size={12} className="text-amber-400" />
+                    <div className="text-xs text-amber-700 dark:text-amber-300 font-semibold flex items-center gap-1 mt-0.5">
+                      <Sparkles size={12} className="text-amber-600 dark:text-amber-400" />
                       Hội viên: <b>{formatVND(selectedItemDetail.memberPrice)}</b>
                     </div>
                   )}
@@ -854,13 +890,13 @@ export default function MenuPage() {
                       addToWishlist(selectedItemDetail);
                       setSelectedItemDetail(null);
                     }}
-                    className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-neutral-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-amber-500/30 active:scale-95 transition"
+                    className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-red-700 to-amber-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-red-900/30 active:scale-95 transition"
                   >
                     <Plus size={16} />
                     <span>Thêm vào món gọi</span>
                   </button>
                 ) : (
-                  <span className="text-xs text-red-400 font-bold bg-red-950/50 border border-red-900/60 px-3 py-2 rounded-xl">
+                  <span className="text-xs text-red-600 dark:text-red-400 font-bold bg-red-100 dark:bg-red-950/50 border border-red-300 dark:border-red-900/60 px-3 py-2 rounded-xl">
                     Tạm hết món
                   </span>
                 )}

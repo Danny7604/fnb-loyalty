@@ -255,12 +255,16 @@ export default function CashierPage() {
       {/* Top Bar for Cashier */}
       <header className="bg-neutral-900 border-b border-neutral-800 px-6 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center font-bold text-white text-sm">
-            POS
+          <div className="w-9 h-9 rounded-full p-0.5 bg-gradient-to-tr from-red-700 via-amber-500 to-red-800 shadow-md shrink-0 overflow-hidden flex items-center justify-center">
+            <img
+              src="/logo.png"
+              alt="Đạt Lẩu & Nướng"
+              className="w-full h-full object-contain rounded-full bg-neutral-950"
+            />
           </div>
           <div>
             <h1 className="font-bold text-white text-base leading-tight">Màn Hình Thu Ngân • Tích Điểm Nhanh</h1>
-            <p className="text-xs text-neutral-400">Quán Lẩu Nướng Khói & Vị • Ca làm việc: Thu Ngân Quầy 1</p>
+            <p className="text-xs text-neutral-400">Đạt Lẩu &amp; Nướng • Ca làm việc: Thu Ngân Quầy 1</p>
           </div>
         </div>
 
