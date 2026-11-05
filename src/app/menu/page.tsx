@@ -401,12 +401,12 @@ export default function MenuPage() {
                       {item.isSignature && (
                         <span className="bg-gradient-to-r from-red-600 to-orange-500 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1 uppercase tracking-wide">
                           <Flame size={11} className="fill-white" />
-                          Món Tủ Của Quán
+                          Nên thử
                         </span>
                       )}
                       {item.isBestSeller && !item.isSignature && (
                         <span className="bg-amber-500 text-neutral-950 font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md uppercase tracking-wide">
-                          ⭐ Bán Chạy
+                          ⭐ Best seller
                         </span>
                       )}
                       {item.spicyLevel > 0 && <SpicyFlame level={item.spicyLevel} />}
@@ -800,12 +800,12 @@ export default function MenuPage() {
               <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap">
                 {selectedItemDetail.isSignature && (
                   <span className="bg-gradient-to-r from-red-600 to-orange-500 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1 uppercase">
-                    <Flame size={11} className="fill-white" /> Món Tủ Của Quán
+                    <Flame size={11} className="fill-white" /> Nên thử
                   </span>
                 )}
                 {selectedItemDetail.isBestSeller && !selectedItemDetail.isSignature && (
                   <span className="bg-amber-500 text-neutral-950 font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md uppercase">
-                    ⭐ Bán Chạy
+                    ⭐ Best seller
                   </span>
                 )}
                 {selectedItemDetail.spicyLevel > 0 && (

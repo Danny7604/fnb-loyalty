@@ -268,12 +268,12 @@ export default function MenuManagementPage() {
                     <div className="flex flex-wrap gap-1">
                       {item.isSignature && (
                         <span className="text-[10px] bg-red-950 text-red-300 border border-red-800 px-1.5 py-0.5 rounded font-bold">
-                          Món Tủ
+                          Nên thử
                         </span>
                       )}
                       {item.isBestSeller && (
                         <span className="text-[10px] bg-amber-950 text-amber-300 border border-amber-800 px-1.5 py-0.5 rounded font-bold">
-                          Bán Chạy
+                          Best seller
                         </span>
                       )}
                       {item.spicyLevel > 0 && (
@@ -447,7 +447,7 @@ export default function MenuManagementPage() {
                     onChange={(e) => setForm({ ...form, isSignature: e.target.checked })}
                     className="rounded accent-red-500 w-4 h-4"
                   />
-                  <span>Món Tủ Đặc Trưng</span>
+                  <span>Món Nên Thử</span>
                 </label>
               </div>
             </div>
