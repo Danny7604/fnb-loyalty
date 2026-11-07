@@ -306,7 +306,7 @@ export default function MenuPage() {
             {/* Member Reminder Pill */}
             <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-red-50 dark:bg-gradient-to-r dark:from-amber-950/60 dark:to-red-950/40 border border-red-200 dark:border-amber-800/40 text-[11px] text-red-800 dark:text-amber-300 font-semibold">
               <Gift size={13} className="text-red-700 dark:text-amber-400 shrink-0" />
-              <span>Tích 10–15% điểm</span>
+              <span>Tích 10–15% điểm đổi quà</span>
             </div>
           </div>
 
@@ -484,22 +484,9 @@ export default function MenuPage() {
                     {/* Price and Action Row */}
                     <div className="pt-2 border-t border-stone-200 dark:border-neutral-800/80 flex items-center justify-between gap-2">
                       <div>
-                        <div className="flex items-baseline gap-2">
-                          <span className="font-black text-red-700 dark:text-amber-400 text-lg tabular-nums">
-                            {formatVND(item.price)}
-                          </span>
-                          {item.memberPrice && (
-                            <span className="text-xs text-stone-400 dark:text-neutral-500 line-through tabular-nums">
-                              {formatVND(item.memberPrice)}
-                            </span>
-                          )}
-                        </div>
-                        {item.memberPrice && (
-                          <div className="text-[10px] text-amber-700 dark:text-amber-300/90 flex items-center gap-1 font-semibold">
-                            <Sparkles size={11} className="text-amber-600 dark:text-amber-400" />
-                            Giá hội viên: <b>{formatVND(item.memberPrice)}</b>
-                          </div>
-                        )}
+                        <span className="font-black text-red-700 dark:text-amber-400 text-lg tabular-nums">
+                          {formatVND(item.price)}
+                        </span>
                       </div>
 
                       {/* Add Button / Stepper */}
@@ -606,21 +593,9 @@ export default function MenuPage() {
                   {/* Price & Add Stepper */}
                   <div className="mt-2 flex items-center justify-between gap-1 pt-1.5 border-t border-stone-200 dark:border-neutral-800/60">
                     <div>
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="font-extrabold text-red-700 dark:text-amber-400 text-sm tabular-nums">
-                          {formatVND(item.price)}
-                        </span>
-                        {item.memberPrice && (
-                          <span className="text-[10px] text-stone-400 dark:text-neutral-500 line-through tabular-nums">
-                            {formatVND(item.memberPrice)}
-                          </span>
-                        )}
-                      </div>
-                      {item.memberPrice && (
-                        <span className="text-[9px] text-amber-700 dark:text-amber-300/80 font-medium block">
-                          HV: {formatVND(item.memberPrice)}
-                        </span>
-                      )}
+                      <span className="font-extrabold text-red-700 dark:text-amber-400 text-sm tabular-nums">
+                        {formatVND(item.price)}
+                      </span>
                     </div>
 
                     {item.isAvailable ? (
@@ -788,10 +763,10 @@ export default function MenuPage() {
               <div className="bg-red-50 dark:bg-gradient-to-r dark:from-amber-950/60 dark:to-red-950/40 border border-red-200 dark:border-amber-800/40 rounded-xl p-2.5 text-xs text-red-900 dark:text-amber-200 flex items-start gap-2">
                 <Gift size={15} className="text-red-700 dark:text-amber-400 shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-bold text-red-800 dark:text-amber-300 leading-tight">Nhắc nhở tích điểm:</p>
+                  <p className="font-bold text-red-800 dark:text-amber-300 leading-tight">Nhắc nhở tích điểm đổi quà:</p>
                   <p className="text-[11px] text-red-700 dark:text-amber-200/90 mt-0.5 leading-normal">
                     Hóa đơn này dự kiến tích lũy khoảng{" "}
-                    <b>+{Math.floor(totalEstimatedPrice / 10000)} điểm</b>. Nhớ đọc số điện thoại khi tính tiền nhé!
+                    <b>+{Math.floor(totalEstimatedPrice / 10000)} điểm</b>. Nhớ đọc số điện thoại khi tính tiền để đổi quà nhé!
                   </p>
                 </div>
               </div>
@@ -871,17 +846,11 @@ export default function MenuPage() {
               <div className="pt-3 border-t border-stone-200 dark:border-neutral-800 flex items-center justify-between gap-3">
                 <div>
                   <span className="text-[10px] text-stone-400 dark:text-neutral-500 uppercase tracking-wider block">
-                    Giá niêm yết
+                    Giá món
                   </span>
                   <span className="font-black text-red-700 dark:text-amber-400 text-2xl tabular-nums">
                     {formatVND(selectedItemDetail.price)}
                   </span>
-                  {selectedItemDetail.memberPrice && (
-                    <div className="text-xs text-amber-700 dark:text-amber-300 font-semibold flex items-center gap-1 mt-0.5">
-                      <Sparkles size={12} className="text-amber-600 dark:text-amber-400" />
-                      Hội viên: <b>{formatVND(selectedItemDetail.memberPrice)}</b>
-                    </div>
-                  )}
                 </div>
 
                 {selectedItemDetail.isAvailable ? (

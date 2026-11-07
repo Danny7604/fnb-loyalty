@@ -235,7 +235,6 @@ export default function MenuManagementPage() {
                 <th className="py-3.5 px-4 font-semibold">Ảnh & Tên Món</th>
                 <th className="py-3.5 px-4 font-semibold">Danh Mục</th>
                 <th className="py-3.5 px-4 font-semibold">Giá Bán</th>
-                <th className="py-3.5 px-4 font-semibold">Giá Hội Viên</th>
                 <th className="py-3.5 px-4 font-semibold">Đặc Điểm</th>
                 <th className="py-3.5 px-4 font-semibold">Trạng Thái (Hết Món)</th>
                 <th className="py-3.5 px-4 font-semibold text-right">Hành Động</th>
@@ -259,9 +258,6 @@ export default function MenuManagementPage() {
 
                   <td className="py-3 px-4 text-neutral-300">{item.categoryName}</td>
                   <td className="py-3 px-4 font-bold text-amber-400 text-sm">{formatVND(item.price)}</td>
-                  <td className="py-3 px-4 text-emerald-400 font-semibold">
-                    {item.memberPrice ? formatVND(item.memberPrice) : "—"}
-                  </td>
 
                   {/* Badges */}
                   <td className="py-3 px-4">
@@ -384,28 +380,15 @@ export default function MenuManagementPage() {
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-neutral-400 mb-1 font-semibold">Giá niêm yết (VNĐ) (*):</label>
-                  <input
-                    type="number"
-                    required
-                    value={form.price}
-                    onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
-                    className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3 py-2 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-500 font-mono"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-neutral-400 mb-1 font-semibold">Giá ưu đãi Hội Viên (VNĐ):</label>
-                  <input
-                    type="number"
-                    value={form.memberPrice}
-                    onChange={(e) => setForm({ ...form, memberPrice: Number(e.target.value) })}
-                    placeholder="Để trống nếu không có"
-                    className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3 py-2 text-sm font-bold text-emerald-400 focus:outline-none focus:border-amber-500 font-mono"
-                  />
-                </div>
+              <div>
+                <label className="block text-neutral-400 mb-1 font-semibold">Giá bán (VNĐ) (*):</label>
+                <input
+                  type="number"
+                  required
+                  value={form.price}
+                  onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
+                  className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3 py-2 text-sm font-bold text-amber-400 focus:outline-none focus:border-amber-500 font-mono"
+                />
               </div>
 
               <div>
