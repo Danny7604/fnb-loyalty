@@ -28,12 +28,16 @@ export default function MenuManagementPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
 
+  // Category Modal State
+  const [isCatModalOpen, setIsCatModalOpen] = useState(false);
+  const [newCatName, setNewCatName] = useState("");
+  const [isSubmittingCat, setIsSubmittingCat] = useState(false);
+
   // Form State
   const [form, setForm] = useState({
     name: "",
     categoryId: "",
     price: 0,
-    memberPrice: 0,
     description: "",
     imageUrl: "",
     portion: "",
@@ -88,7 +92,6 @@ export default function MenuManagementPage() {
       name: item.name,
       categoryId: item.categoryId,
       price: item.price,
-      memberPrice: item.memberPrice || 0,
       description: item.description || "",
       imageUrl: item.imageUrl || "",
       portion: item.portion || "",
@@ -105,7 +108,6 @@ export default function MenuManagementPage() {
       name: "",
       categoryId: categories[0]?.id || "cat-meat",
       price: 150000,
-      memberPrice: 135000,
       description: "",
       imageUrl: "https://images.unsplash.com/photo-1544025162-d76694265947?w=800",
       portion: "Đĩa 250g",
@@ -127,7 +129,6 @@ export default function MenuManagementPage() {
           ...(editingItem ? { id: editingItem.id } : {}),
           ...form,
           price: Number(form.price),
-          memberPrice: form.memberPrice ? Number(form.memberPrice) : undefined,
         }),
       });
       const json = await res.json();
@@ -137,6 +138,32 @@ export default function MenuManagementPage() {
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  // Create Category
+  const handleSaveCat = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newCatName.trim()) return;
+    setIsSubmittingCat(true);
+    try {
+      const res = await fetch("/api/menu/categories", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: newCatName.trim() }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setNewCatName("");
+        setIsCatModalOpen(false);
+        fetchMenu();
+      } else {
+        alert(json.error || "Không thể tạo danh mục");
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSubmittingCat(false);
     }
   };
 
@@ -180,6 +207,13 @@ export default function MenuManagementPage() {
             <Eye className="w-4 h-4" />
             Xem Menu Khách (Live) ↗
           </Link>
+          <button
+            onClick={() => setIsCatModalOpen(true)}
+            className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-neutral-200 font-bold text-xs transition border border-neutral-700"
+          >
+            <Plus className="w-4 h-4 text-amber-400" />
+            Thêm danh mục
+          </button>
           <button
             onClick={handleOpenAdd}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs transition shadow-sm"
@@ -448,6 +482,59 @@ export default function MenuManagementPage() {
                 className="w-1/2 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs transition active:scale-95"
               >
                 Lưu vào Thực Đơn
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Add Category Modal */}
+      {isCatModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <form
+            onSubmit={handleSaveCat}
+            className="bg-neutral-900 border border-neutral-800 max-w-sm w-full rounded-3xl p-6 shadow-2xl animate-in zoom-in-95 duration-150 space-y-4"
+          >
+            <div className="flex items-center justify-between border-b border-neutral-800 pb-3">
+              <h3 className="font-bold text-base text-white">Thêm Danh Mục Mới</h3>
+              <button
+                type="button"
+                onClick={() => setIsCatModalOpen(false)}
+                className="w-7 h-7 rounded-full bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <div className="space-y-3 text-xs">
+              <div>
+                <label className="block text-neutral-400 mb-1 font-semibold">Tên danh mục (*):</label>
+                <input
+                  type="text"
+                  required
+                  autoFocus
+                  placeholder="Ví dụ: Bia & Rượu, Trà & Cà phê..."
+                  value={newCatName}
+                  onChange={(e) => setNewCatName(e.target.value)}
+                  className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500"
+                />
+              </div>
+            </div>
+
+            <div className="pt-2 flex gap-2">
+              <button
+                type="button"
+                onClick={() => setIsCatModalOpen(false)}
+                className="w-1/2 py-2.5 rounded-xl bg-neutral-800 text-neutral-300 font-semibold text-xs hover:bg-neutral-700 transition"
+              >
+                Hủy
+              </button>
+              <button
+                type="submit"
+                disabled={isSubmittingCat || !newCatName.trim()}
+                className="w-1/2 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs transition active:scale-95 disabled:opacity-50"
+              >
+                {isSubmittingCat ? "Đang tạo..." : "Tạo Danh Mục"}
               </button>
             </div>
           </form>
