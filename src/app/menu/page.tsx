@@ -281,12 +281,12 @@ export default function MenuPage() {
             </div>
           </div>
 
-          {/* Quick Info Bar: Wifi & Member perk */}
-          <div className="mt-2.5 flex items-center justify-between gap-2 text-xs">
+          {/* Quick Info Bar: Wifi */}
+          <div className="mt-2.5 text-xs">
             {/* Wifi Quick Copy */}
             <button
               onClick={copyWifiPassword}
-              className="flex-1 flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 text-stone-700 dark:text-neutral-300 hover:text-stone-900 dark:hover:text-white transition active:scale-95"
+              className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 text-stone-700 dark:text-neutral-300 hover:text-stone-900 dark:hover:text-white transition active:scale-95"
             >
               <div className="flex items-center gap-1.5 text-[11px]">
                 <Wifi size={13} className="text-stone-600 dark:text-stone-400 shrink-0" />
@@ -294,20 +294,14 @@ export default function MenuPage() {
               </div>
               {copiedWifi ? (
                 <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
-                  <Check size={12} /> Đã chép
+                  <Check size={12} /> Đã chép mật khẩu
                 </span>
               ) : (
-                <span className="text-[10px] text-stone-700 dark:text-stone-300 font-mono bg-stone-200/80 dark:bg-neutral-900 px-1.5 py-0.5 rounded font-semibold">
-                  88888888
+                <span className="text-[10px] text-stone-700 dark:text-stone-300 font-mono bg-stone-200/80 dark:bg-neutral-900 px-2 py-0.5 rounded font-semibold">
+                  88888888 (Chạm để chép)
                 </span>
               )}
             </button>
-
-            {/* Member Reminder Pill */}
-            <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 text-[11px] text-stone-700 dark:text-stone-300 font-medium">
-              <Gift size={13} className="text-red-700 dark:text-red-400 shrink-0" />
-              <span>Tích 10–15% điểm đổi quà</span>
-            </div>
           </div>
 
           {/* Search Box */}
