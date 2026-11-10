@@ -9,7 +9,21 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { customerPhone, type, points, billAmount, billCode, discountAmount, staffName, notes, voucherCode } = body;
+    const {
+      customerPhone,
+      type,
+      points,
+      billAmount,
+      billCode,
+      discountAmount,
+      staffName,
+      notes,
+      voucherCode,
+      redeemedMilestoneId,
+      redeemedMilestoneName,
+      redeemedItemId,
+      redeemedItemName,
+    } = body;
 
     if (!customerPhone || !type || points === undefined) {
       return NextResponse.json({ success: false, error: "Thiếu thông tin giao dịch" }, { status: 400 });
@@ -29,6 +43,10 @@ export async function POST(request: NextRequest) {
       discountAmount: Number(discountAmount || 0),
       staffName: staffName || "Thu Ngân",
       notes: notes || "",
+      redeemedMilestoneId,
+      redeemedMilestoneName,
+      redeemedItemId,
+      redeemedItemName,
     });
 
     return NextResponse.json({ success: true, data: result });

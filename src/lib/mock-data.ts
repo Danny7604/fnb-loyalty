@@ -1,4 +1,4 @@
-import { Category, Customer, LoyaltySetting, MenuItem, PointTransaction, Tier, Voucher } from "./types";
+import { Category, Customer, LoyaltySetting, MenuItem, PointTransaction, RewardMilestone, Tier, Voucher } from "./types";
 
 export const initialTiers: Tier[] = [
   {
@@ -503,10 +503,37 @@ export const initialTransactions: PointTransaction[] = [
   },
 ];
 
+export const initialRewardMilestones: RewardMilestone[] = [
+  {
+    id: "milestone-50",
+    name: "Mốc 50 Điểm: Đổi 1 Món Khai Vị hoặc Nước Uống",
+    pointsRequired: 50,
+    description: "Khách được chọn 1 món bất kỳ trong danh sách món khai vị & đồ uống của quán",
+    itemIds: ["item-d1", "item-d2", "item-a1", "item-a2"],
+    isActive: true,
+  },
+  {
+    id: "milestone-100",
+    name: "Mốc 100 Điểm: Đổi 1 Đĩa Thịt Nướng Hảo Hạng",
+    pointsRequired: 100,
+    description: "Khách được chọn 1 đĩa thịt nướng tẩm sốt hoặc món nhúng lẩu đặc biệt",
+    itemIds: ["item-m1", "item-m3", "item-m4"],
+    isActive: true,
+  },
+  {
+    id: "milestone-200",
+    name: "Mốc 200 Điểm: Đổi 1 Món Nướng / Hải Sản Thượng Hạng",
+    pointsRequired: 200,
+    description: "Khách được chọn 1 món thượng hạng như Dẻ sườn bò tảng, Tôm sú bơ tỏi hoặc Mực trứng",
+    itemIds: ["item-m2", "item-s1", "item-s2"],
+    isActive: true,
+  },
+];
+
 export const initialLoyaltySetting: LoyaltySetting = {
-  earnRateAmount: 100000,
-  earnRatePoints: 10,
+  earnRateAmount: 20000,
+  earnRatePoints: 1,
   redeemRatePoint: 1,
-  redeemRateAmount: 1000,
-  minRedeemPoints: 10,
+  redeemRateAmount: 0,
+  minRedeemPoints: 50,
 };

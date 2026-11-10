@@ -3,11 +3,12 @@ import {
   initialCustomers,
   initialLoyaltySetting,
   initialMenuItems,
+  initialRewardMilestones,
   initialTiers,
   initialTransactions,
   initialVouchers,
 } from "./mock-data";
-import { Category, Customer, LoyaltySetting, MenuItem, PointTransaction, Tier, Voucher } from "./types";
+import { Category, Customer, LoyaltySetting, MenuItem, PointTransaction, RewardMilestone, Tier, Voucher } from "./types";
 
 // Global in-memory cache for state persistence across hot-reloads in Node runtime
 const globalStore = globalThis as unknown as {
@@ -18,6 +19,7 @@ const globalStore = globalThis as unknown as {
   __fnb_vouchers?: Voucher[];
   __fnb_transactions?: PointTransaction[];
   __fnb_loyaltySetting?: LoyaltySetting;
+  __fnb_rewardMilestones?: RewardMilestone[];
 };
 
 if (!globalStore.__fnb_categories) globalStore.__fnb_categories = [...initialCategories];
@@ -27,6 +29,7 @@ if (!globalStore.__fnb_tiers) globalStore.__fnb_tiers = [...initialTiers];
 if (!globalStore.__fnb_vouchers) globalStore.__fnb_vouchers = [...initialVouchers];
 if (!globalStore.__fnb_transactions) globalStore.__fnb_transactions = [...initialTransactions];
 if (!globalStore.__fnb_loyaltySetting) globalStore.__fnb_loyaltySetting = { ...initialLoyaltySetting };
+if (!globalStore.__fnb_rewardMilestones) globalStore.__fnb_rewardMilestones = [...initialRewardMilestones];
 
 export const store = {
   // Categories & Menu
@@ -161,6 +164,10 @@ export const store = {
     discountAmount?: number;
     staffName?: string;
     notes?: string;
+    redeemedMilestoneId?: string;
+    redeemedMilestoneName?: string;
+    redeemedItemId?: string;
+    redeemedItemName?: string;
   }): { customer: Customer; transaction: PointTransaction } {
     let customer = this.getCustomerByPhone(params.customerPhone);
     if (!customer) {
@@ -195,6 +202,10 @@ export const store = {
       discountAmount: params.discountAmount || 0,
       staffName: params.staffName || "Thu Ngân",
       notes: params.notes,
+      redeemedMilestoneId: params.redeemedMilestoneId,
+      redeemedMilestoneName: params.redeemedMilestoneName,
+      redeemedItemId: params.redeemedItemId,
+      redeemedItemName: params.redeemedItemName,
       createdAt: new Date().toISOString(),
     };
 
@@ -251,6 +262,47 @@ export const store = {
     const v = (globalStore.__fnb_vouchers || []).find((item) => item.code.toUpperCase() === code.trim().toUpperCase());
     if (v && v.isActive && v.usedCount < v.usageLimit) {
       v.usedCount += 1;
+      return true;
+    }
+    return false;
+  },
+
+  // Reward Milestones (Đổi thưởng món theo mốc điểm)
+  getRewardMilestones(): RewardMilestone[] {
+    return (globalStore.__fnb_rewardMilestones || []).sort((a, b) => a.pointsRequired - b.pointsRequired);
+  },
+
+  saveRewardMilestone(data: Partial<RewardMilestone> & { name: string; pointsRequired: number; itemIds: string[] }): RewardMilestone {
+    const milestones = globalStore.__fnb_rewardMilestones || [];
+    if (data.id) {
+      const idx = milestones.findIndex((m) => m.id === data.id);
+      if (idx !== -1) {
+        milestones[idx] = {
+          ...milestones[idx],
+          ...data,
+          pointsRequired: Number(data.pointsRequired),
+          isActive: data.isActive ?? milestones[idx].isActive,
+        };
+        return milestones[idx];
+      }
+    }
+
+    const newMilestone: RewardMilestone = {
+      id: `milestone-${Date.now()}`,
+      name: data.name,
+      pointsRequired: Number(data.pointsRequired),
+      description: data.description || "",
+      itemIds: data.itemIds || [],
+      isActive: data.isActive ?? true,
+    };
+    milestones.push(newMilestone);
+    return newMilestone;
+  },
+
+  deleteRewardMilestone(id: string): boolean {
+    const idx = (globalStore.__fnb_rewardMilestones || []).findIndex((m) => m.id === id);
+    if (idx !== -1) {
+      globalStore.__fnb_rewardMilestones?.splice(idx, 1);
       return true;
     }
     return false;

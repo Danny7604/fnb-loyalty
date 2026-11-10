@@ -61,7 +61,20 @@ export interface PointTransaction {
   discountAmount?: number;
   staffName?: string;
   notes?: string;
+  redeemedMilestoneId?: string;
+  redeemedMilestoneName?: string;
+  redeemedItemId?: string;
+  redeemedItemName?: string;
   createdAt: string;
+}
+
+export interface RewardMilestone {
+  id: string;
+  name: string;
+  pointsRequired: number;
+  description?: string;
+  itemIds: string[];
+  isActive: boolean;
 }
 
 export interface Voucher {
