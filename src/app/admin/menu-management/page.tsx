@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import {
   UtensilsCrossed,
@@ -16,6 +16,9 @@ import {
   ToggleRight,
   ExternalLink,
   Search,
+  Upload,
+  RefreshCw,
+  ImageIcon,
 } from "lucide-react";
 import { Category, MenuItem } from "@/lib/types";
 import { formatVND } from "@/lib/utils";
@@ -32,6 +35,10 @@ export default function MenuManagementPage() {
   const [isCatModalOpen, setIsCatModalOpen] = useState(false);
   const [newCatName, setNewCatName] = useState("");
   const [isSubmittingCat, setIsSubmittingCat] = useState(false);
+
+  // Image Upload State
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
 
   // Form State
   const [form, setForm] = useState({
@@ -164,6 +171,48 @@ export default function MenuManagementPage() {
       console.error(err);
     } finally {
       setIsSubmittingCat(false);
+    }
+  };
+
+  // Handle Upload Image from File
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Vui lòng chọn file hình ảnh (JPG, PNG, WEBP, v.v.)");
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      alert("Dung lượng ảnh không được vượt quá 10MB");
+      return;
+    }
+
+    setIsUploadingImage(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const json = await res.json();
+      if (json.success && json.url) {
+        setForm((prev) => ({ ...prev, imageUrl: json.url }));
+      } else {
+        alert(json.error || "Không thể tải ảnh lên. Vui lòng thử lại.");
+      }
+    } catch (err) {
+      console.error("Upload error:", err);
+      alert("Lỗi khi tải ảnh lên máy chủ");
+    } finally {
+      setIsUploadingImage(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 
@@ -425,15 +474,88 @@ export default function MenuManagementPage() {
                 />
               </div>
 
-              <div>
-                <label className="block text-neutral-400 mb-1 font-semibold">Đường dẫn ảnh (Image URL):</label>
+              {/* Image Upload from Device or URL */}
+              <div className="space-y-2">
+                <label className="block text-neutral-400 font-semibold">
+                  Hình ảnh món ăn:
+                </label>
+
+                {/* Upload Button & Preview */}
+                {form.imageUrl ? (
+                  <div className="rounded-2xl border border-neutral-700 bg-neutral-950 p-2.5 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <img
+                        src={form.imageUrl}
+                        alt="Ảnh món ăn"
+                        className="w-16 h-16 rounded-xl object-cover bg-neutral-900 border border-neutral-800 shrink-0"
+                      />
+                      <div className="min-w-0">
+                        <p className="text-white font-bold text-xs truncate">{form.name || "Ảnh món ăn"}</p>
+                        <p className="text-[10px] text-emerald-400 font-mono truncate mt-0.5">
+                          {form.imageUrl.startsWith("data:") ? "Ảnh đã nén" : "Đã lưu trữ đám mây"}
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => fileInputRef.current?.click()}
+                          disabled={isUploadingImage}
+                          className="text-[11px] text-amber-400 hover:text-amber-300 font-bold mt-1 inline-flex items-center gap-1 cursor-pointer"
+                        >
+                          <Upload className="w-3 h-3" />
+                          <span>Tải ảnh khác từ thiết bị</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setForm({ ...form, imageUrl: "" })}
+                      className="p-1.5 rounded-lg bg-neutral-800 text-neutral-400 hover:text-white shrink-0"
+                      title="Gỡ ảnh"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ) : (
+                  <div
+                    onClick={() => fileInputRef.current?.click()}
+                    className="border-2 border-dashed border-neutral-700 hover:border-amber-500/70 rounded-2xl p-5 text-center cursor-pointer transition bg-neutral-950/60 hover:bg-neutral-950 space-y-2 group"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-neutral-800 group-hover:bg-neutral-700 border border-neutral-700 flex items-center justify-center mx-auto text-amber-400 transition">
+                      {isUploadingImage ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Upload className="w-5 h-5" />}
+                    </div>
+                    <div>
+                      <p className="text-white font-bold text-xs">
+                        {isUploadingImage ? "Đang tải ảnh lên đám mây..." : "Bấm để tải ảnh từ máy tính hoặc điện thoại"}
+                      </p>
+                      <p className="text-[10px] text-neutral-500 mt-0.5">
+                        Hỗ trợ chụp từ camera, ảnh thư viện PNG, JPG, WEBP (Tối đa 10MB)
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Hidden Native File Input */}
                 <input
-                  type="url"
-                  placeholder="https://..."
-                  value={form.imageUrl}
-                  onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
-                  className="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  className="hidden"
                 />
+
+                {/* Alternative: Direct URL input */}
+                <div className="pt-1">
+                  <span className="block text-[11px] text-neutral-500 mb-1">
+                    Hoặc dán link ảnh trực tiếp (URL):
+                  </span>
+                  <input
+                    type="url"
+                    placeholder="https://..."
+                    value={form.imageUrl}
+                    onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+                    className="w-full bg-neutral-950 border border-neutral-800 rounded-xl px-3 py-1.5 text-xs text-neutral-300 placeholder:text-neutral-600 focus:outline-none focus:border-amber-500 font-mono"
+                  />
+                </div>
               </div>
 
               <div>
