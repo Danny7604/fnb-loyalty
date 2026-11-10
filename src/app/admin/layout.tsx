@@ -1,40 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 import {
   BarChart3,
   Users,
   UtensilsCrossed,
   Ticket,
-  Sliders,
+  Gift,
   Store,
   ExternalLink,
-  Flame,
   CreditCard,
   ChevronRight,
 } from "lucide-react";
 
 const navItems = [
-  { label: "Báo Cáo Doanh Thu", href: "/admin/dashboard", icon: BarChart3, color: "text-emerald-400" },
-  { label: "Khách Hàng (CRM)",   href: "/admin/customers",        icon: Users,          color: "text-sky-400"    },
-  { label: "Quản Lý Thực Đơn",   href: "/admin/menu-management",  icon: UtensilsCrossed, color: "text-orange-400" },
-  { label: "Kho Voucher & Quà",  href: "/admin/vouchers",         icon: Ticket,         color: "text-pink-400"   },
-  { label: "Cấu Hình Tích Điểm", href: "/admin/loyalty-rules",   icon: Sliders,        color: "text-purple-400" },
+  { id: "overview",  label: "Báo Cáo Doanh Thu", href: "/admin?tab=overview", icon: BarChart3,       color: "text-emerald-400" },
+  { id: "menu",      label: "Quản Lý Thực Đơn",  href: "/admin?tab=menu",     icon: UtensilsCrossed, color: "text-orange-400"  },
+  { id: "rewards",   label: "Mốc Đổi Thưởng",    href: "/admin?tab=rewards",  icon: Gift,            color: "text-red-400"     },
+  { id: "customers", label: "Khách Hàng (CRM)",  href: "/admin?tab=customers",icon: Users,           color: "text-sky-400"     },
+  { id: "vouchers",  label: "Kho Voucher & Quà", href: "/admin?tab=vouchers", icon: Ticket,          color: "text-pink-400"    },
 ];
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+function AdminNavContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab") || "overview";
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-100 flex flex-col md:flex-row">
-
       {/* ── Desktop Sidebar ───────────────────────────────────────────────── */}
       <aside className="hidden md:flex w-64 bg-neutral-900 border-r border-neutral-800 flex-col shrink-0 sticky top-0 h-screen overflow-hidden">
-
         {/* Brand */}
         <div className="p-5 border-b border-neutral-800">
-          <div className="flex items-center gap-2.5">
+          <Link href="/admin" className="flex items-center gap-2.5">
             <div className="w-10 h-10 rounded-full border border-neutral-700 bg-neutral-950 shrink-0 overflow-hidden flex items-center justify-center">
               <img
                 src="/logo.png"
@@ -44,23 +44,23 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             </div>
             <div>
               <h2 className="font-black text-sm tracking-tight text-white leading-tight">ĐẠT LẨU &amp; NƯỚNG</h2>
-              <span className="text-[10px] text-amber-500 font-bold uppercase tracking-wider">Loyalty &amp; Menu Hub</span>
+              <span className="text-[10px] text-amber-500 font-bold uppercase tracking-wider">Admin Portal Tổng</span>
             </div>
-          </div>
+          </Link>
         </div>
 
         {/* Nav */}
         <nav className="p-3 space-y-0.5 flex-1 overflow-y-auto">
           <p className="text-[11px] font-bold text-neutral-500 uppercase tracking-widest px-3 py-2.5">
-            Quản trị hệ thống
+            Chức năng quản trị
           </p>
 
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href;
+            const isActive = pathname === "/admin" ? currentTab === item.id : pathname.includes(item.id);
             return (
               <Link
-                key={item.href}
+                key={item.id}
                 href={item.href}
                 className={`group relative flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 overflow-hidden ${
                   isActive
@@ -78,7 +78,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     isActive ? item.color : "text-neutral-500 group-hover:text-neutral-300"
                   }`}
                 />
-                <span className={isActive ? "font-bold" : ""}>{item.label}</span>
+                <span className={isActive ? "font-bold text-white" : ""}>{item.label}</span>
 
                 {isActive && (
                   <ChevronRight className="w-3.5 h-3.5 ml-auto text-amber-400/70" />
@@ -110,7 +110,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           >
             <div className="flex items-center gap-2.5">
               <Store className="w-4 h-4" />
-              <span>Menu Khách Xem (QR)</span>
+              <span>Menu Khách Xem (Live)</span>
             </div>
             <ExternalLink className="w-3.5 h-3.5" />
           </Link>
@@ -137,10 +137,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-neutral-900/95 backdrop-blur-md border-t border-neutral-800 flex items-stretch">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = pathname === item.href;
+          const isActive = pathname === "/admin" ? currentTab === item.id : pathname.includes(item.id);
           return (
             <Link
-              key={item.href}
+              key={item.id}
               href={item.href}
               className={`flex-1 flex flex-col items-center justify-center py-2 gap-0.5 transition-all press-scale relative ${
                 isActive ? "text-amber-400" : "text-neutral-500 hover:text-neutral-300"
@@ -169,5 +169,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* ── Main Content ──────────────────────────────────────────────────── */}
       <main className="flex-1 overflow-y-auto min-h-screen pb-16 md:pb-0">{children}</main>
     </div>
+  );
+}
+
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-neutral-950 text-neutral-400 text-xs p-6">Đang tải...</div>}>
+      <AdminNavContent>{children}</AdminNavContent>
+    </Suspense>
   );
 }
