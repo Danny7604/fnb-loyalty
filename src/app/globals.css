@@ -70,46 +70,47 @@ body {
   100% { background-position:  200% 0; }
 }
 .skeleton {
-  background: linear-gradient(90deg, #262626 25%, #333 50%, #262626 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.4s infinite;
+  background: #262626;
   border-radius: 0.5rem;
+}
+:root:not(.dark) .skeleton {
+  background: #e7e5e4;
 }
 
 /* Float up — for the wishlist bar appearing */
 @keyframes floatUp {
-  from { opacity: 0; transform: translateY(16px); }
+  from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .animate-float-up {
-  animation: floatUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: floatUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* Slide in from bottom — modal */
 @keyframes slideInBottom {
-  from { opacity: 0; transform: translateY(60px); }
+  from { opacity: 0; transform: translateY(40px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .animate-slide-in-bottom {
-  animation: slideInBottom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: slideInBottom 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* Zoom in — dialog/modal center */
 @keyframes zoomIn {
-  from { opacity: 0; transform: scale(0.9); }
+  from { opacity: 0; transform: scale(0.95); }
   to   { opacity: 1; transform: scale(1); }
 }
 .animate-zoom-in {
-  animation: zoomIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation: zoomIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Number count-up shimmer for stat cards */
+/* Number count-up for stat cards */
 @keyframes countUp {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 .animate-count-up {
-  animation: countUp 0.5s ease both;
+  animation: countUp 0.4s ease both;
 }
 
 /* Sidebar active indicator slide */
@@ -121,15 +122,6 @@ body {
   animation: slideActiveBar 0.2s ease both;
 }
 
-/* Glow pulse for stat icon backgrounds */
-@keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); }
-  50%       { box-shadow: 0 0 12px 3px rgba(245,158,11,0.25); }
-}
-.animate-glow-pulse {
-  animation: glowPulse 2.5s ease-in-out infinite;
-}
-
 /* Spin slow — for refresh icons */
 @keyframes spinSlow {
   from { transform: rotate(0deg); }
@@ -139,24 +131,14 @@ body {
   animation: spinSlow 2s linear infinite;
 }
 
-/* Row highlight flash — for table rows on hover */
-@keyframes rowFlash {
-  0%   { background-color: transparent; }
-  40%  { background-color: rgba(245,158,11,0.07); }
-  100% { background-color: transparent; }
-}
-.animate-row-flash:hover {
-  animation: rowFlash 0.5s ease;
-}
-
-/* Toggle switch smooth color transition */
+/* Toggle switch smooth transition */
 .toggle-track {
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 .toggle-thumb {
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Active scale on press */
-.press-scale:active { transform: scale(0.95); transition: transform 0.1s; }
+.press-scale:active { transform: scale(0.97); transition: transform 0.1s; }
 

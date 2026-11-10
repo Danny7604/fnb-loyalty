@@ -196,25 +196,25 @@ export default function MenuPage() {
   return (
     <div className="min-h-screen bg-stone-100/70 dark:bg-neutral-950 text-stone-900 dark:text-neutral-100 pb-36 font-sans select-none antialiased transition-colors duration-200">
       {/* ── 1. Top Brand & Table Info Header ───────────────────────────────── */}
-      <header className="sticky top-0 z-30 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-b border-stone-200 dark:border-neutral-800 shadow-md dark:shadow-xl transition-colors duration-200">
+      <header className="sticky top-0 z-30 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-md border-b border-stone-200 dark:border-neutral-800 shadow-xs transition-colors duration-200">
         <div className="max-w-md mx-auto px-4 pt-3 pb-2.5">
           {/* Brand Row + Controls */}
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2.5">
-              {/* Circular Logo with Glow */}
-              <div className="w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-red-700 via-amber-500 to-red-800 shadow-md shadow-red-950/30 shrink-0 overflow-hidden flex items-center justify-center">
+              {/* Circular Logo */}
+              <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border border-stone-200 dark:border-neutral-700 bg-stone-100 dark:bg-neutral-800 flex items-center justify-center">
                 <img
                   src="/logo.png"
                   alt="Đạt Lẩu & Nướng"
-                  className="w-full h-full object-contain rounded-full bg-neutral-950"
+                  className="w-full h-full object-contain"
                 />
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h1 className="font-black text-sm tracking-tight text-neutral-900 dark:text-white uppercase leading-none">
+                  <h1 className="font-extrabold text-sm tracking-tight text-neutral-900 dark:text-white uppercase leading-none">
                     Đạt Lẩu &amp; Nướng
                   </h1>
-                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-red-600/10 dark:bg-red-500/20 text-red-700 dark:text-red-400 border border-red-500/30 font-bold uppercase">
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-stone-100 dark:bg-neutral-800 text-red-700 dark:text-red-400 border border-stone-200 dark:border-neutral-700 font-bold uppercase">
                     BBQ
                   </span>
                 </div>
@@ -227,22 +227,22 @@ export default function MenuPage() {
               {/* Theme Toggle Button */}
               <button
                 onClick={cycleTheme}
-                className="flex items-center gap-1 px-2 py-1 rounded-lg bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:border-amber-500/50 transition active:scale-95"
+                className="flex items-center gap-1 px-2 py-1 rounded-lg bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 text-xs font-semibold text-stone-700 dark:text-stone-300 hover:border-stone-400 dark:hover:border-neutral-600 transition active:scale-95"
                 title={`Chế độ: ${themeMode === "auto" ? "Tự động theo giờ điện thoại" : themeMode === "light" ? "Giao diện sáng" : "Giao diện tối"} (Bấm để đổi)`}
               >
                 {themeMode === "auto" ? (
                   <>
-                    <Clock size={12} className="text-amber-600 dark:text-amber-400 shrink-0" />
+                    <Clock size={12} className="text-stone-600 dark:text-stone-400 shrink-0" />
                     <span className="text-[10px]">Auto</span>
                   </>
                 ) : themeMode === "light" ? (
                   <>
-                    <Sun size={12} className="text-amber-500 shrink-0" />
+                    <Sun size={12} className="text-amber-600 shrink-0" />
                     <span className="text-[10px]">Sáng</span>
                   </>
                 ) : (
                   <>
-                    <Moon size={12} className="text-sky-400 shrink-0" />
+                    <Moon size={12} className="text-stone-300 shrink-0" />
                     <span className="text-[10px]">Tối</span>
                   </>
                 )}
@@ -251,14 +251,14 @@ export default function MenuPage() {
               {/* Table Badge */}
               <div className="relative shrink-0">
                 {isEditingTable ? (
-                  <div className="flex items-center gap-1 bg-white dark:bg-neutral-800 border border-amber-500/50 rounded-lg p-1">
+                  <div className="flex items-center gap-1 bg-white dark:bg-neutral-800 border border-stone-300 dark:border-neutral-600 rounded-lg p-1">
                     <input
                       type="text"
                       value={tableNumber}
                       onChange={(e) => setTableNumber(e.target.value)}
                       onBlur={() => setIsEditingTable(false)}
                       autoFocus
-                      className="w-16 bg-stone-100 dark:bg-neutral-950 text-amber-700 dark:text-amber-400 text-xs font-bold px-1.5 py-0.5 rounded outline-none"
+                      className="w-16 bg-stone-100 dark:bg-neutral-950 text-stone-900 dark:text-white text-xs font-bold px-1.5 py-0.5 rounded outline-none"
                     />
                     <button
                       onClick={() => setIsEditingTable(false)}
@@ -270,10 +270,10 @@ export default function MenuPage() {
                 ) : (
                   <button
                     onClick={() => setIsEditingTable(true)}
-                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-neutral-800/90 border border-stone-200 dark:border-neutral-700 text-xs font-bold text-red-800 dark:text-amber-400 hover:border-amber-500/50 transition active:scale-95"
+                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 text-xs font-bold text-stone-800 dark:text-stone-200 hover:border-stone-400 dark:hover:border-neutral-600 transition active:scale-95"
                     title="Nhấn để đổi số bàn"
                   >
-                    <MapPin size={12} className="text-red-700 dark:text-amber-400 shrink-0" />
+                    <MapPin size={12} className="text-red-700 dark:text-red-400 shrink-0" />
                     <span>{tableNumber}</span>
                   </button>
                 )}
@@ -286,10 +286,10 @@ export default function MenuPage() {
             {/* Wifi Quick Copy */}
             <button
               onClick={copyWifiPassword}
-              className="flex-1 flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-stone-100 dark:bg-neutral-800/80 border border-stone-200 dark:border-neutral-700/60 text-stone-700 dark:text-neutral-300 hover:text-stone-900 dark:hover:text-white transition active:scale-95"
+              className="flex-1 flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 text-stone-700 dark:text-neutral-300 hover:text-stone-900 dark:hover:text-white transition active:scale-95"
             >
               <div className="flex items-center gap-1.5 text-[11px]">
-                <Wifi size={13} className="text-red-700 dark:text-amber-400 shrink-0" />
+                <Wifi size={13} className="text-stone-600 dark:text-stone-400 shrink-0" />
                 <span className="font-mono text-stone-500 dark:text-neutral-400">Wifi: <b className="text-stone-800 dark:text-neutral-200">DatLauNuong_5G</b></span>
               </div>
               {copiedWifi ? (
@@ -297,15 +297,15 @@ export default function MenuPage() {
                   <Check size={12} /> Đã chép
                 </span>
               ) : (
-                <span className="text-[10px] text-red-800 dark:text-amber-400 font-mono bg-stone-200/80 dark:bg-neutral-900/80 px-1.5 py-0.5 rounded font-bold">
+                <span className="text-[10px] text-stone-700 dark:text-stone-300 font-mono bg-stone-200/80 dark:bg-neutral-900 px-1.5 py-0.5 rounded font-semibold">
                   88888888
                 </span>
               )}
             </button>
 
             {/* Member Reminder Pill */}
-            <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-red-50 dark:bg-gradient-to-r dark:from-amber-950/60 dark:to-red-950/40 border border-red-200 dark:border-amber-800/40 text-[11px] text-red-800 dark:text-amber-300 font-semibold">
-              <Gift size={13} className="text-red-700 dark:text-amber-400 shrink-0" />
+            <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 text-[11px] text-stone-700 dark:text-stone-300 font-medium">
+              <Gift size={13} className="text-red-700 dark:text-red-400 shrink-0" />
               <span>Tích 10–15% điểm đổi quà</span>
             </div>
           </div>
@@ -318,7 +318,7 @@ export default function MenuPage() {
               placeholder="Tìm bò Mỹ, dẻ sườn, lẩu thái, ba chỉ..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-stone-100 dark:bg-neutral-800/90 border border-stone-200 dark:border-neutral-700/70 rounded-xl pl-9 pr-8 py-2 text-xs text-stone-900 dark:text-neutral-100 placeholder:text-stone-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-red-700 dark:focus:border-amber-500 focus:bg-white dark:focus:bg-neutral-800 transition"
+              className="w-full bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 rounded-xl pl-9 pr-8 py-2 text-xs text-stone-900 dark:text-neutral-100 placeholder:text-stone-400 dark:placeholder:text-neutral-500 focus:outline-none focus:border-red-700 dark:focus:border-neutral-500 focus:bg-white dark:focus:bg-neutral-800 transition"
             />
             {searchQuery && (
               <button
@@ -336,8 +336,8 @@ export default function MenuPage() {
               onClick={() => setSelectedCategory("all")}
               className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 ${
                 selectedCategory === "all"
-                  ? "bg-gradient-to-r from-red-700 to-amber-600 text-white shadow-md shadow-red-900/30"
-                  : "bg-stone-100 dark:bg-neutral-800/80 text-stone-600 dark:text-neutral-400 border border-stone-200 dark:border-neutral-700/60 hover:text-stone-900 dark:hover:text-neutral-200"
+                  ? "bg-red-800 text-white"
+                  : "bg-stone-100 dark:bg-neutral-800 text-stone-600 dark:text-neutral-400 border border-stone-200 dark:border-neutral-700 hover:text-stone-900 dark:hover:text-neutral-200"
               }`}
             >
               <Sparkles size={13} className="shrink-0" />
@@ -353,8 +353,8 @@ export default function MenuPage() {
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`shrink-0 px-3 py-1.5 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 active:scale-95 ${
                     isActive
-                      ? "bg-gradient-to-r from-red-700 to-amber-600 text-white shadow-md shadow-red-900/30"
-                      : "bg-stone-100 dark:bg-neutral-800/80 text-stone-600 dark:text-neutral-400 border border-stone-200 dark:border-neutral-700/60 hover:text-stone-900 dark:hover:text-neutral-200"
+                      ? "bg-red-800 text-white"
+                      : "bg-stone-100 dark:bg-neutral-800 text-stone-600 dark:text-neutral-400 border border-stone-200 dark:border-neutral-700 hover:text-stone-900 dark:hover:text-neutral-200"
                   }`}
                 >
                   {getCategoryIcon(cat.slug)}
@@ -364,7 +364,7 @@ export default function MenuPage() {
                       className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                         isActive
                           ? "bg-white/20 text-white"
-                          : "bg-stone-200 dark:bg-neutral-700/50 text-stone-600 dark:text-neutral-400"
+                          : "bg-stone-200 dark:bg-neutral-700 text-stone-600 dark:text-neutral-400"
                       }`}
                     >
                       {count}
@@ -396,7 +396,7 @@ export default function MenuPage() {
                 setSelectedCategory("all");
                 setSearchQuery("");
               }}
-              className="mt-4 px-4 py-2 rounded-xl bg-gradient-to-r from-red-700 to-amber-600 text-white text-xs font-bold shadow-md shadow-red-900/20"
+              className="mt-4 px-4 py-2 rounded-xl bg-red-700 hover:bg-red-800 text-white text-xs font-bold shadow-sm transition"
             >
               Xem toàn bộ thực đơn
             </button>
@@ -435,13 +435,13 @@ export default function MenuPage() {
                     {/* Badges on Top Left */}
                     <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1.5 z-10">
                       {item.isSignature && (
-                        <span className="bg-gradient-to-r from-red-700 to-amber-600 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1 uppercase tracking-wide">
+                        <span className="bg-red-700 text-white font-bold text-[10px] px-2 py-0.5 rounded shadow-xs flex items-center gap-1 uppercase tracking-wide">
                           <Flame size={11} className="fill-white" />
                           Nên thử
                         </span>
                       )}
                       {item.isBestSeller && !item.isSignature && (
-                        <span className="bg-amber-500 text-neutral-950 font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md uppercase tracking-wide">
+                        <span className="bg-amber-600 text-white font-bold text-[10px] px-2 py-0.5 rounded shadow-xs uppercase tracking-wide">
                           ⭐ Best seller
                         </span>
                       )}
@@ -492,23 +492,19 @@ export default function MenuPage() {
                       {/* Add Button / Stepper */}
                       {item.isAvailable ? (
                         wishlistItem ? (
-                          <div
-                            className={`flex items-center gap-1.5 bg-red-50 dark:bg-amber-500/10 border border-red-300 dark:border-amber-500/30 rounded-xl p-1 ${
-                              isJustAdded ? "scale-105" : ""
-                            } transition-transform`}
-                          >
+                          <div className="flex items-center gap-1.5 bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 rounded-xl p-1">
                             <button
                               onClick={() => updateQuantity(item.id, -1)}
-                              className="w-7 h-7 rounded-lg bg-stone-200 dark:bg-neutral-800 hover:bg-stone-300 dark:hover:bg-neutral-700 text-stone-900 dark:text-white flex items-center justify-center transition active:scale-95"
+                              className="w-7 h-7 rounded-lg bg-stone-200 dark:bg-neutral-700 hover:bg-stone-300 dark:hover:bg-neutral-600 text-stone-900 dark:text-white flex items-center justify-center transition active:scale-95"
                             >
                               <Minus size={14} />
                             </button>
-                            <span className="text-xs font-black text-red-700 dark:text-amber-400 w-5 text-center tabular-nums">
+                            <span className="text-xs font-bold text-stone-900 dark:text-white w-5 text-center tabular-nums">
                               {wishlistItem.quantity}
                             </span>
                             <button
                               onClick={() => updateQuantity(item.id, 1)}
-                              className="w-7 h-7 rounded-lg bg-gradient-to-r from-red-700 to-amber-600 text-white font-bold flex items-center justify-center transition active:scale-95"
+                              className="w-7 h-7 rounded-lg bg-red-700 hover:bg-red-800 text-white font-bold flex items-center justify-center transition active:scale-95"
                             >
                               <Plus size={14} />
                             </button>
@@ -516,7 +512,7 @@ export default function MenuPage() {
                         ) : (
                           <button
                             onClick={() => addToWishlist(item)}
-                            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-red-700 to-amber-600 hover:brightness-110 text-white text-xs font-black shadow-md shadow-red-900/20 active:scale-95 transition"
+                            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-red-700 hover:bg-red-800 text-white text-xs font-bold active:scale-95 transition"
                           >
                             <Plus size={14} />
                             <span>Chọn món</span>
@@ -600,19 +596,19 @@ export default function MenuPage() {
 
                     {item.isAvailable ? (
                       wishlistItem ? (
-                        <div className="flex items-center gap-1 bg-red-50 dark:bg-amber-500/10 border border-red-300 dark:border-amber-500/30 rounded-xl p-0.5">
+                        <div className="flex items-center gap-1 bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 rounded-xl p-0.5">
                           <button
                             onClick={() => updateQuantity(item.id, -1)}
-                            className="w-6 h-6 rounded-lg bg-stone-200 dark:bg-neutral-800 hover:bg-stone-300 dark:hover:bg-neutral-700 text-stone-900 dark:text-white flex items-center justify-center transition active:scale-95"
+                            className="w-6 h-6 rounded-lg bg-stone-200 dark:bg-neutral-700 text-stone-900 dark:text-white flex items-center justify-center transition active:scale-95"
                           >
                             <Minus size={12} />
                           </button>
-                          <span className="text-xs font-black text-red-700 dark:text-amber-400 w-4 text-center tabular-nums">
+                          <span className="text-xs font-bold text-stone-900 dark:text-white w-4 text-center tabular-nums">
                             {wishlistItem.quantity}
                           </span>
                           <button
                             onClick={() => updateQuantity(item.id, 1)}
-                            className="w-6 h-6 rounded-lg bg-gradient-to-r from-red-700 to-amber-600 text-white font-bold flex items-center justify-center transition active:scale-95"
+                            className="w-6 h-6 rounded-lg bg-red-700 hover:bg-red-800 text-white font-bold flex items-center justify-center transition active:scale-95"
                           >
                             <Plus size={12} />
                           </button>
@@ -620,7 +616,7 @@ export default function MenuPage() {
                       ) : (
                         <button
                           onClick={() => addToWishlist(item)}
-                          className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-stone-100 dark:bg-neutral-800 hover:bg-red-700 hover:text-white dark:hover:bg-amber-500 dark:hover:text-neutral-950 border border-stone-200 dark:border-neutral-700 text-stone-800 dark:text-neutral-200 text-xs font-bold transition active:scale-95"
+                          className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-stone-100 dark:bg-neutral-800 hover:bg-red-700 hover:text-white border border-stone-200 dark:border-neutral-700 text-stone-800 dark:text-neutral-200 text-xs font-bold transition active:scale-95"
                         >
                           <Plus size={13} />
                           <span>Chọn</span>
@@ -642,13 +638,11 @@ export default function MenuPage() {
         <div className="fixed bottom-4 left-3 right-3 z-40 max-w-md mx-auto">
           <div
             onClick={() => setIsWishlistOpen(true)}
-            className="relative bg-gradient-to-r from-red-800 via-orange-600 to-amber-600 rounded-2xl p-3 shadow-2xl shadow-red-950/60 flex items-center justify-between cursor-pointer border border-amber-300/30 hover:brightness-105 transition active:scale-98 text-white"
+            className="bg-red-800 text-white rounded-2xl p-3.5 shadow-xl shadow-black/30 flex items-center justify-between cursor-pointer border border-red-700/80 transition active:scale-98"
           >
             <div className="flex items-center gap-2.5">
               <div
-                className={`w-9 h-9 rounded-xl bg-neutral-950/40 border border-white/10 flex items-center justify-center font-black text-sm shrink-0 tabular-nums ${
-                  wishlistBadgePulse ? "scale-110" : ""
-                } transition-transform`}
+                className="w-9 h-9 rounded-xl bg-black/25 flex items-center justify-center font-bold text-sm shrink-0 tabular-nums text-white"
               >
                 {totalWishlistItems}
               </div>
@@ -656,13 +650,13 @@ export default function MenuPage() {
                 <p className="font-extrabold text-xs leading-tight flex items-center gap-1.5">
                   <span>Món bàn {tableNumber} đã chọn</span>
                 </p>
-                <p className="text-[11px] text-amber-100 font-semibold tabular-nums">
+                <p className="text-[11px] text-stone-200 font-medium tabular-nums">
                   Tạm tính: {formatVND(totalEstimatedPrice)}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1 text-xs font-black bg-neutral-950/30 px-3 py-1.5 rounded-xl border border-white/10 shrink-0">
+            <div className="flex items-center gap-1 text-xs font-bold bg-black/20 hover:bg-black/30 px-3 py-1.5 rounded-xl text-white shrink-0">
               <span>Đọc cho NV</span>
               <ChevronRight size={14} />
             </div>
@@ -732,7 +726,7 @@ export default function MenuPage() {
                       </span>
                       <button
                         onClick={() => updateQuantity(w.item.id, 1)}
-                        className="w-6 h-6 rounded-lg bg-gradient-to-r from-red-700 to-amber-600 text-white font-bold flex items-center justify-center active:scale-95 transition"
+                        className="w-6 h-6 rounded-lg bg-red-700 hover:bg-red-800 text-white font-bold flex items-center justify-center active:scale-95 transition"
                       >
                         <Plus size={12} />
                       </button>
@@ -760,11 +754,11 @@ export default function MenuPage() {
               </div>
 
               {/* Loyalty Earn Estimate */}
-              <div className="bg-red-50 dark:bg-gradient-to-r dark:from-amber-950/60 dark:to-red-950/40 border border-red-200 dark:border-amber-800/40 rounded-xl p-2.5 text-xs text-red-900 dark:text-amber-200 flex items-start gap-2">
-                <Gift size={15} className="text-red-700 dark:text-amber-400 shrink-0 mt-0.5" />
+              <div className="bg-stone-100 dark:bg-neutral-800 border border-stone-200 dark:border-neutral-700 rounded-xl p-2.5 text-xs text-stone-800 dark:text-stone-200 flex items-start gap-2">
+                <Gift size={15} className="text-red-700 dark:text-red-400 shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-bold text-red-800 dark:text-amber-300 leading-tight">Nhắc nhở tích điểm đổi quà:</p>
-                  <p className="text-[11px] text-red-700 dark:text-amber-200/90 mt-0.5 leading-normal">
+                  <p className="font-bold text-stone-900 dark:text-white leading-tight">Nhắc nhở tích điểm đổi quà:</p>
+                  <p className="text-[11px] text-stone-600 dark:text-stone-300 mt-0.5 leading-normal">
                     Hóa đơn này dự kiến tích lũy khoảng{" "}
                     <b>+{Math.floor(totalEstimatedPrice / 10000)} điểm</b>. Nhớ đọc số điện thoại khi tính tiền để đổi quà nhé!
                   </p>
@@ -773,7 +767,7 @@ export default function MenuPage() {
 
               <button
                 onClick={() => setIsWishlistOpen(false)}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-red-700 to-amber-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider transition active:scale-98 shadow-lg shadow-red-900/20"
+                className="w-full py-3 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-xs uppercase tracking-wider transition active:scale-98"
               >
                 Đã xong, quay lại xem món tiếp
               </button>
@@ -785,7 +779,7 @@ export default function MenuPage() {
       {/* ── 5. Dish Detail Modal (Bottom popup on tap) ───────────────────────── */}
       {selectedItemDetail && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4"
+          className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-end sm:items-center justify-center p-0 sm:p-4"
           onClick={(e) => {
             if (e.target === e.currentTarget) setSelectedItemDetail(null);
           }}
@@ -810,12 +804,12 @@ export default function MenuPage() {
               {/* Badges on image */}
               <div className="absolute top-3 left-3 flex gap-1.5 flex-wrap">
                 {selectedItemDetail.isSignature && (
-                  <span className="bg-gradient-to-r from-red-700 to-amber-600 text-white font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1 uppercase">
+                  <span className="bg-red-700 text-white font-bold text-[10px] px-2 py-0.5 rounded shadow-xs flex items-center gap-1 uppercase">
                     <Flame size={11} className="fill-white" /> Nên thử
                   </span>
                 )}
                 {selectedItemDetail.isBestSeller && !selectedItemDetail.isSignature && (
-                  <span className="bg-amber-500 text-neutral-950 font-black text-[10px] px-2.5 py-0.5 rounded-full shadow-md uppercase">
+                  <span className="bg-amber-600 text-white font-bold text-[10px] px-2 py-0.5 rounded shadow-xs uppercase">
                     ⭐ Best seller
                   </span>
                 )}
@@ -859,7 +853,7 @@ export default function MenuPage() {
                       addToWishlist(selectedItemDetail);
                       setSelectedItemDetail(null);
                     }}
-                    className="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-red-700 to-amber-600 hover:brightness-110 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-red-900/30 active:scale-95 transition"
+                    className="flex items-center gap-2 px-5 py-3 rounded-xl bg-red-700 hover:bg-red-800 text-white font-bold text-xs uppercase tracking-wider active:scale-95 transition"
                   >
                     <Plus size={16} />
                     <span>Thêm vào món gọi</span>

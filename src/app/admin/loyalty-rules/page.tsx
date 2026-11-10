@@ -96,7 +96,7 @@ export default function LoyaltyRulesPage() {
         <button
           onClick={handleSaveAll}
           disabled={isSubmitting}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs transition shadow-lg shadow-amber-950/40 active:scale-95 disabled:opacity-50"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold text-xs transition shadow-sm active:scale-95 disabled:opacity-50"
         >
           {isSaved ? <Check className="w-4 h-4 text-emerald-950" /> : <Save className="w-4 h-4" />}
           {isSaved ? "Đã lưu cài đặt!" : "Lưu tất cả cấu hình"}

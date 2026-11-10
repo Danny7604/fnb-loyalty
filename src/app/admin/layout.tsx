@@ -35,16 +35,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Brand */}
         <div className="p-5 border-b border-neutral-800">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-full p-0.5 bg-gradient-to-tr from-red-700 via-amber-500 to-red-800 shadow-md shadow-red-950/40 shrink-0 overflow-hidden flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full border border-neutral-700 bg-neutral-950 shrink-0 overflow-hidden flex items-center justify-center">
               <img
                 src="/logo.png"
                 alt="Đạt Lẩu & Nướng"
-                className="w-full h-full object-contain rounded-full bg-neutral-950"
+                className="w-full h-full object-contain"
               />
             </div>
             <div>
               <h2 className="font-black text-sm tracking-tight text-white leading-tight">ĐẠT LẨU &amp; NƯỚNG</h2>
-              <span className="text-[10px] text-amber-400 font-bold uppercase tracking-wider">Loyalty &amp; Menu Hub</span>
+              <span className="text-[10px] text-amber-500 font-bold uppercase tracking-wider">Loyalty &amp; Menu Hub</span>
             </div>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {isActive && (
                   <span className="absolute left-0 top-2 bottom-2 w-0.5 bg-amber-400 rounded-r-full animate-active-bar" />
                 )}
-                {/* Active icon glow */}
+                {/* Active icon indicator */}
                 <Icon
                   className={`w-4 h-4 shrink-0 transition-colors ${
                     isActive ? item.color : "text-neutral-500 group-hover:text-neutral-300"
@@ -119,12 +119,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Footer profile */}
         <div className="p-4 border-t border-neutral-800 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-amber-600 to-red-600 flex items-center justify-center text-xs font-black text-white shrink-0">
-              A
+            <div className="w-7 h-7 rounded-full bg-neutral-800 border border-neutral-700 flex items-center justify-center text-xs font-black text-white shrink-0">
+              Đ
             </div>
             <div>
               <p className="font-bold text-xs text-white leading-tight">Chủ Quán</p>
-              <p className="text-[10px] text-neutral-500 font-mono">admin@khoivavi.vn</p>
+              <p className="text-[10px] text-neutral-500 font-mono">admin@datlaunuong.vn</p>
             </div>
           </div>
           <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-bold border border-emerald-500/20">

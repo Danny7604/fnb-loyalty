@@ -145,7 +145,7 @@ export default function AdminDashboardPage() {
         </div>
         <Link
           href="/cashier"
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition press-scale shadow-lg shadow-emerald-950/40"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition press-scale shadow-sm"
         >
           <PlusCircle className="w-4 h-4" />
           Tích điểm tại quầy

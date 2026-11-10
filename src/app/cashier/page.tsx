@@ -255,11 +255,11 @@ export default function CashierPage() {
       {/* Top Bar for Cashier */}
       <header className="bg-neutral-900 border-b border-neutral-800 px-6 py-3.5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full p-0.5 bg-gradient-to-tr from-red-700 via-amber-500 to-red-800 shadow-md shrink-0 overflow-hidden flex items-center justify-center">
+          <div className="w-9 h-9 rounded-full border border-neutral-700 bg-neutral-950 shrink-0 overflow-hidden flex items-center justify-center">
             <img
               src="/logo.png"
               alt="Đạt Lẩu & Nướng"
-              className="w-full h-full object-contain rounded-full bg-neutral-950"
+              className="w-full h-full object-contain"
             />
           </div>
           <div>
@@ -574,7 +574,7 @@ export default function CashierPage() {
             <button
               onClick={handleSubmitTransaction}
               disabled={isSubmitting || !customer || !billAmount || Number(billAmount) <= 0}
-              className="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-extrabold text-base tracking-wide transition active:scale-98 disabled:opacity-40 disabled:cursor-not-allowed shadow-xl shadow-emerald-950/50 flex items-center justify-center gap-2"
+              className="w-full py-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-base tracking-wide transition active:scale-98 disabled:opacity-40 disabled:cursor-not-allowed shadow-md shadow-black/20 flex items-center justify-center gap-2"
             >
               {isSubmitting ? (
                 <>
@@ -634,7 +634,7 @@ export default function CashierPage() {
 
             <button
               onClick={handleResetForNextCustomer}
-              className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition active:scale-95 shadow-lg shadow-emerald-950/50"
+              className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm transition active:scale-95 shadow-md shadow-black/20"
             >
               Xong, Chuyển Khách Tiếp Theo (Phím Esc)
             </button>
